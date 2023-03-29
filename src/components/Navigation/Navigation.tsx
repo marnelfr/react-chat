@@ -1,5 +1,4 @@
 import React from "react";
-import profilPicture from "../../assets/img/1.jpg";
 import BrandSvg from "../UI/Svg/Brand";
 import TimesSvg from "../UI/Svg/Times";
 import PenSvg from "../UI/Svg/Pen";
@@ -7,6 +6,7 @@ import MessageSvg from "../UI/Svg/Message";
 import NotificationSvg from "../UI/Svg/Notification";
 import NavItem from "./NavItem";
 import GrearSvg from "../UI/Svg/Grear";
+import Profile from "./Profile";
 
 const Navigation = () => {
   return (
@@ -60,13 +60,7 @@ const Navigation = () => {
         </NavItem>
 
         {/* Profile: show the profile modal */}
-        <li className="nav-item d-none d-xl-block">
-          <span className="nav-link p-0 mt-lg-2">
-            <div className="avatar avatar-online mx-auto">
-              <img className="avatar-img" src={profilPicture} alt="" />
-            </div>
-          </span>
-        </li>
+        <Profile />
       </ul>
     </nav>
   );
