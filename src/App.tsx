@@ -144,7 +144,7 @@ function App() {
                   <div className="mb-6">
                     <form action="chat-group.html">
                       <div className="input-group">
-                        <div className="input-group-text">
+                        <div className="input-group-text input-group-text-custom">
                           <div className="icon icon-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -156,7 +156,7 @@ function App() {
                           </div>
                         </div>
 
-                        <input type="text" className="form-control form-control-lg ps-0" placeholder="Search in charts" aria-label="Search in charts" />
+                        <input type="text" className="form-control form-control-lg ps-0 form-control-custom" placeholder="Search in charts" aria-label="Search in charts" />
                       </div>
                     </form>
                   </div>
