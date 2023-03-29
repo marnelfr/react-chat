@@ -130,7 +130,7 @@ function App() {
       <aside className="sidebar bg-light">
         <div className="tab-content h-100" role="tablist">
           {/* Charts */}
-          <div className="tab-pane fade h-100 show active" id="tab-content-support" role="tabpanel">
+          <div className="tab-pane fade h-100" id="tab-content-support" role="tabpanel">
             <div className="d-flex flex-column h-100">
               <div className="hide-scrollbar">
                 <div className="container py-8">
@@ -311,7 +311,7 @@ function App() {
                   <div className="mb-6">
                     <form action="chat-group.html">
                       <div className="input-group">
-                        <div className="input-group-text">
+                        <div className="input-group-text input-group-text-custom">
                           <div className="icon icon-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -323,7 +323,7 @@ function App() {
                           </div>
                         </div>
 
-                        <input type="text" className="form-control form-control-lg ps-0"
+                        <input type="text" className="form-control form-control-lg ps-0 form-control-custom"
                                placeholder="Search messages or users"
                                aria-label="Search for messages or users..." />
                       </div>
@@ -794,7 +794,7 @@ function App() {
           </div>
 
           {/* Settings */}
-          <div className="tab-pane fade h-100" id="tab-content-settings" role="tabpanel">
+          <div className="tab-pane fade h-100 show active" id="tab-content-settings" role="tabpanel">
             <div className="d-flex flex-column h-100">
               <div className="hide-scrollbar">
                 <div className="container py-8">
@@ -808,7 +808,7 @@ function App() {
                   <div className="mb-6">
                     <form action="chat-group.html">
                       <div className="input-group">
-                        <div className="input-group-text">
+                        <div className="input-group-text input-group-text-custom">
                           <div className="icon icon-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -820,7 +820,7 @@ function App() {
                           </div>
                         </div>
 
-                        <input type="text" className="form-control form-control-lg ps-0"
+                        <input type="text" className="form-control form-control-lg ps-0 form-control-custom"
                                placeholder="Search messages or users nel3"
                                aria-label="Search for messages or users..." />
                       </div>
@@ -2750,12 +2750,12 @@ function App() {
                   <div className="col">
                     <div className="input-group">
                       <textarea
-                        className="form-control px-0" placeholder="Type your message..." rows={1}
+                        className="form-control px-0 form-control-custom" placeholder="Type your message..." rows={1}
                         data-emoji-input="" data-autosize="true"
                         style={{overflow: 'hidden', overflowWrap: 'break-word', resize: 'none', height: '47px'}}
                       ></textarea>
 
-                      <a href="chat-group.html" className="input-group-text text-body pe-0" data-emoji-btn="">
+                      <a href="chat-group.html" className="input-group-text input-group-text-custom text-body pe-0" data-emoji-btn="">
                         <span className="icon icon-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
