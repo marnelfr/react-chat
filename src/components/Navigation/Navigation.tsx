@@ -23,7 +23,7 @@ const Navigation = () => {
       >
         {/* Invisible item to center nav vertically */}
         <li className="nav-item d-none d-xl-block invisible flex-xl-grow-1">
-          <a className="nav-link py-0 py-lg-8" href="chat-group.html" title="">
+          <a className="nav-link py-0 py-lg-8" href="#" title="">
             <div className="icon icon-xl">
               <TimesSvg />
             </div>
