@@ -5,7 +5,7 @@ type SectionProps = {
   children: ReactNode;
 };
 
-const NotificationSection: React.FC<SectionProps> = ({ title, children }) => {
+const NotificationCard: React.FC<SectionProps> = ({ title, children }) => {
   return (
     <div className="card-list">
       <div className="d-flex align-items-center my-4 px-6">
@@ -17,4 +17,4 @@ const NotificationSection: React.FC<SectionProps> = ({ title, children }) => {
   );
 };
 
-export default NotificationSection;
+export default NotificationCard;

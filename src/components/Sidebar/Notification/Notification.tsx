@@ -3,7 +3,7 @@ import SidebarItem from "../SidebarItem";
 import StarSvg from "../../UI/Svg/Star";
 import GiftSvg from "../../UI/Svg/Gift";
 import NotificationItem from "./NotificationItem";
-import NotificationSection from "./NotificationSection";
+import NotificationCard from "../../UI/Card/Notification/NotificationCard";
 import LockSvg from "../../UI/Svg/Lock";
 import RefreshSvg from "../../UI/Svg/Refresh";
 import PowerSvg from "../../UI/Svg/Power";
@@ -20,7 +20,7 @@ const Notification: React.FC<NotificationProps> = ({ isActive }) => {
       id="tab-content-notification"
       isActive={isActive}
     >
-      <NotificationSection title="Today">
+      <NotificationCard title="Today">
         <NotificationItem
           title="Congratulations!"
           time="08:45 PM"
@@ -30,9 +30,9 @@ const Notification: React.FC<NotificationProps> = ({ isActive }) => {
           svgType="warning"
           subSvg={<GiftSvg />}
         />
-      </NotificationSection>
+      </NotificationCard>
 
-      <NotificationSection title="Yesterday">
+      <NotificationCard title="Yesterday">
         <NotificationItem
           title="Password Changed"
           time="04:25 PM"
@@ -41,9 +41,9 @@ const Notification: React.FC<NotificationProps> = ({ isActive }) => {
           svgType="success"
           subSvg={<RefreshSvg />}
         />
-      </NotificationSection>
+      </NotificationCard>
 
-      <NotificationSection title="Previous">
+      <NotificationCard title="Previous">
         <NotificationItem
           title="Password Changed"
           time="04:25 PM"
@@ -62,7 +62,7 @@ const Notification: React.FC<NotificationProps> = ({ isActive }) => {
         />
 
         <NotificationPlaceholder />
-      </NotificationSection>
+      </NotificationCard>
     </SidebarItem>
   );
 };
