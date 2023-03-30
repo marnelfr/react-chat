@@ -7,9 +7,9 @@ const Sidebar = () => {
   return (
     <aside className="sidebar bg-light">
       <div className="tab-content h-100" role="tablist">
-        <Chat isActive={false} />
+        <Chat isActive={true} />
         <Notification isActive={false} />
-        <Settings isActive={true} />
+        <Settings isActive={false} />
       </div>
     </aside>
   );
