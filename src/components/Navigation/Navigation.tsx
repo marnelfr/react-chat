@@ -6,7 +6,7 @@ import MessageSvg from "../UI/Svg/Message";
 import NotificationSvg from "../UI/Svg/Notification";
 import NavItem from "./NavItem";
 import GrearSvg from "../UI/Svg/Grear";
-import Profile from "./Profile";
+import NavProfile from "./NavProfile";
 
 const Navigation = () => {
   return (
@@ -59,7 +59,7 @@ const Navigation = () => {
         </NavItem>
 
         {/* Profile: show the profile modal */}
-        <Profile />
+        <NavProfile />
       </ul>
     </nav>
   );

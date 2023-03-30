@@ -1,7 +1,7 @@
 import profilPicture from "../../assets/img/1.jpg";
 import React from "react";
 
-const Profile = () => {
+const NavProfile = () => {
   return (
     <li className="nav-item d-none d-xl-block">
       <span className="nav-link p-0 mt-lg-2">
@@ -13,4 +13,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default NavProfile;
