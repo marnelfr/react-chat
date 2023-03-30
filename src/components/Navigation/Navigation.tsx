@@ -1,5 +1,5 @@
 import React from "react";
-import BrandSvg from "../UI/Svg/Brand";
+
 import TimesSvg from "../UI/Svg/Times";
 import PenSvg from "../UI/Svg/Pen";
 import MessageSvg from "../UI/Svg/Message";
@@ -8,11 +8,13 @@ import NavItem from "./NavItem";
 import GrearSvg from "../UI/Svg/Grear";
 import NavProfile from "./NavProfile";
 
+import image from "../../assets/img/logo.png";
+
 const Navigation = () => {
   return (
     <nav className="navigation d-flex flex-column text-center navbar navbar-light hide-scrollbar">
       <a href="#" title="Messenger" className="d-none d-xl-block mb-6">
-        <BrandSvg />
+        <img style={{ width: 46, height: 46 }} src={image} alt="GmlG Logo" />
       </a>
 
       {/* Nav items */}

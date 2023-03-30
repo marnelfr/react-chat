@@ -9,7 +9,6 @@ const Content = () => {
     <div className="chat-body hide-scrollbar flex-1 h-100">
       <div className="chat-body-inner" style={{ paddingBottom: "87px" }}>
         <div className="py-6 py-lg-12">
-          {/* Message */}
           <Message hour="08:45 PM" out={false}>
             <MessageContent
               message="Hey, Marshall! How are you? Can you please change the
@@ -33,7 +32,6 @@ const Content = () => {
             />
           </Message>
 
-          {/* Divider */}
           <Divider>Friday, Sep 20</Divider>
 
           <Message hour="08:45 PM" out={false}>

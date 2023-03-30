@@ -1,5 +1,4 @@
 import React from "react";
-import profilPicture from "../../../assets/img/1.jpg";
 import ImageSvg from "../../UI/Svg/Image";
 import LogoutSvg from "../../UI/Svg/Logout";
 
@@ -10,7 +9,11 @@ const SettingsProfile = () => {
         <div className="row align-items-center gx-5">
           <div className="col-auto">
             <div className="avatar">
-              <img src={profilPicture} alt="#" className="avatar-img" />
+              <img
+                src="https://eu.ui-avatars.com/api/?name=GM&rounded=true"
+                alt="#"
+                className="avatar-img"
+              />
 
               <div className="badge badge-circle bg-secondary border-outline position-absolute bottom-0 end-0">
                 <ImageSvg />

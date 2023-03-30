@@ -1,6 +1,5 @@
 import MessageCard from "./MessageCard";
 import React, { ReactNode } from "react";
-import image from "../../../assets/img/2.jpg";
 
 type MessageProps = {
   hour: string;
@@ -9,6 +8,10 @@ type MessageProps = {
 };
 
 const Message = ({ hour, children, out }: MessageProps) => {
+  const image = out
+    ? "https://eu.ui-avatars.com/api/?name=GM&rounded=true"
+    : "https://eu.ui-avatars.com/api/?name=IA&rounded=true";
+
   return (
     <div className={`message ${out ? "message-out" : undefined}`}>
       <a
