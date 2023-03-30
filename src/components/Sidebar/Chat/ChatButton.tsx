@@ -1,4 +1,4 @@
-import ArrowLeft from "../../UI/Svg/ArrowLeft";
+import ArrowLeft from "../../UI/Svg/ChevronRight";
 import React from "react";
 
 const ChatButton = () => {

@@ -1,6 +1,9 @@
 import React from "react";
+import ChevronLeft from "../UI/Svg/ChevronLeft";
+import RefreshSvg from "../UI/Svg/Refresh";
+import MoreVerticalSvg from "../UI/Svg/MoreVertical";
 
-const Message = () => {
+const Conversation = () => {
   return (
     <>
       <main className="main is-visible" data-dropzone-area="">
@@ -16,20 +19,7 @@ const Message = () => {
                     href="#"
                     data-toggle-chat=""
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      className="feather feather-chevron-left"
-                    >
-                      <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
+                    <ChevronLeft />
                   </a>
                 </div>
                 {/* Mobile: show chat list */}
@@ -46,22 +36,7 @@ const Message = () => {
                             className="icon icon-lg text-muted"
                           >
                             {/*todo: change by a refresher icon*/}
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              className="feather feather-more-horizontal"
-                            >
-                              <circle cx="12" cy="12" r="1"></circle>
-                              <circle cx="19" cy="12" r="1"></circle>
-                              <circle cx="5" cy="12" r="1"></circle>
-                            </svg>
+                            <RefreshSvg />
                           </a>
                         </div>
                       </div>
@@ -82,22 +57,7 @@ const Message = () => {
                     >
                       <div className="icon icon-lg">
                         {/*todo: change by a refresher icon*/}
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          className="feather feather-more-vertical"
-                        >
-                          <circle cx="12" cy="12" r="1"></circle>
-                          <circle cx="12" cy="5" r="1"></circle>
-                          <circle cx="12" cy="19" r="1"></circle>
-                        </svg>
+                        <RefreshSvg />
                       </div>
                     </a>
                   </div>
@@ -149,22 +109,7 @@ const Message = () => {
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  className="feather feather-more-vertical"
-                                >
-                                  <circle cx="12" cy="12" r="1"></circle>
-                                  <circle cx="12" cy="5" r="1"></circle>
-                                  <circle cx="12" cy="19" r="1"></circle>
-                                </svg>
+                                <MoreVerticalSvg />
                               </a>
 
                               <ul className="dropdown-menu">
@@ -2327,4 +2272,4 @@ const Message = () => {
   );
 };
 
-export default Message;
+export default Conversation;

@@ -1,6 +1,6 @@
 import React from "react";
 
-const ArrowLeftSvg = () => {
+const ChevronRightSvg = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,4 +19,4 @@ const ArrowLeftSvg = () => {
   );
 };
 
-export default ArrowLeftSvg;
+export default ChevronRightSvg;
