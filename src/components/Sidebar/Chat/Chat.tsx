@@ -1,6 +1,6 @@
 import React from "react";
 import SidebarItem from "../SidebarItem";
-import ChartPlaceholder from "../../UI/Placeholder/Chart";
+import ChatPlaceholder from "../../UI/Placeholder/Chat";
 import ArrowLeft from "../../UI/Svg/ArrowLeft";
 import ChatButton from "./ChatButton";
 import ChatItem from "./ChatItem";
@@ -30,7 +30,8 @@ const Chat: React.FC<ChatsProps> = ({ isActive }) => {
           title="Engineer's life"
           summary="What is the engineer's life"
         />
-        <ChartPlaceholder />
+
+        <ChatPlaceholder />
       </div>
       {/* List of old charts of the current user*/}
     </SidebarItem>

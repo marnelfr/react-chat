@@ -11,7 +11,6 @@ import Profile from "./Profile";
 const Navigation = () => {
   return (
     <nav className="navigation d-flex flex-column text-center navbar navbar-light hide-scrollbar">
-      {/* Brand */}
       <a href="#" title="Messenger" className="d-none d-xl-block mb-6">
         <BrandSvg />
       </a>

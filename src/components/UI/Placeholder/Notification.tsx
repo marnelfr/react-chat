@@ -1,16 +1,10 @@
 import React from "react";
 
-const ChartPlaceholder = () => {
+const NotificationPlaceholder = () => {
   return (
     <div className="card border-0 text-reset">
       <div className="card-body">
         <div className="row gx-5">
-          <div className="col">
-            <div className="placeholder-glow">
-              <span className="placeholder col-7"></span>
-              <span className="placeholder col-12"></span>
-            </div>
-          </div>
           <div className="col-auto">
             <div className="avatar">
               <svg
@@ -26,6 +20,13 @@ const ChartPlaceholder = () => {
                 <title>Placeholder</title>
                 <rect width="100%" height="100%" fill="#868e96"></rect>
               </svg>
+            </div>
+          </div>
+          <div className="col">
+            <div className="placeholder-glow">
+              <span className="placeholder col-7"></span>
+              <span className="placeholder col-2 float-end"></span>
+              <span className="placeholder col-12 py-5 mt-3"></span>
             </div>
           </div>
         </div>
@@ -75,4 +76,4 @@ const ChartPlaceholder = () => {
 
 */
 
-export default ChartPlaceholder;
+export default NotificationPlaceholder;
