@@ -4,6 +4,8 @@ import MessageSvg from "../UI/Svg/Message";
 import Main from "./Main";
 import NoMessage from "./NoMessage";
 import Content from "./Content";
+import Modal from "../../../../components/UI/Modal/Modal";
+import ModalProfile from "../Navigation/ModalProfile";
 
 const Conversation = () => {
   let content = <NoMessage />;
@@ -15,6 +17,7 @@ const Conversation = () => {
     <Main>
       {content}
       <ChatForm />
+      <ModalProfile />
     </Main>
   );
 };

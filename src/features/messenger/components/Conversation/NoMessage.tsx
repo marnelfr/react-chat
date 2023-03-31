@@ -10,7 +10,7 @@ const NoMessage = () => {
         </span>
       </div>
       <p className="text-muted">
-        Start a new conversation, <br /> and learn a much as you can.
+        Start a new conversation, <br /> and learn as much as you can.
       </p>
     </div>
   );

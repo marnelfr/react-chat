@@ -43,12 +43,13 @@ const NavItem: React.FC<NavItemProps> = ({
 
   return (
     <li
+      onClick={clickHandler}
+      role="button"
       className={`nav-item ${
         lastNav ? "d-xl-block flex-xl-grow-1" : undefined
       }`}
     >
       <div
-        onClick={clickHandler}
         className={`nav-link py-0 py-lg-8 ${
           activeTab === tab && !newChat ? "active" : undefined
         }`}
