@@ -32,7 +32,12 @@ const Navigation = () => {
           </a>
         </li>
 
-        <NavItem id="tab-create-chat" title="Create chat" tab={SIDEBAR.Chat}>
+        <NavItem
+          id="tab-create-chat"
+          newChat
+          title="Create chat"
+          tab={SIDEBAR.Chat}
+        >
           <PenSvg />
         </NavItem>
 

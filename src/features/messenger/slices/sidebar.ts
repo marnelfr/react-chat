@@ -13,7 +13,7 @@ const sidebarSlice = createSlice({
   name: "sidebar",
   initialState,
   reducers: {
-    set(state, action: PayloadAction<string>) {
+    setActiveTab(state, action: PayloadAction<string>) {
       state.activeTab = action.payload;
     },
   },

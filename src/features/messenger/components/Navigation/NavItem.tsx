@@ -1,6 +1,7 @@
 import MessageSvg from "../UI/Svg/Message";
-import React, { ReactNode, useCallback } from "react";
-import { useAppDispatch } from "../../../../app/hooks";
+import React, { MouseEventHandler, ReactNode, useCallback } from "react";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+import { sidebarActions } from "../../slices/sidebar";
 
 type NavItemProps = {
   children: ReactNode;
@@ -11,6 +12,7 @@ type NavItemProps = {
   title: string;
   tab: string;
   lastNav?: boolean;
+  newChat?: boolean;
 };
 
 const NavItem: React.FC<NavItemProps> = ({
@@ -22,13 +24,21 @@ const NavItem: React.FC<NavItemProps> = ({
   badgeType,
   lastNav,
   tab,
+  newChat,
 }) => {
   const dispatch = useAppDispatch();
-  const clickHandler = useCallback(
-    (event: MouseEvent) => {
+  const activeTab = useAppSelector((state) => state.sidebar.activeTab);
+
+  const clickHandler: MouseEventHandler = useCallback(
+    (event) => {
       event.preventDefault();
+      dispatch(sidebarActions.setActiveTab(tab));
+
+      if (newChat) {
+        // todo: add a new chat
+      }
     },
-    [dispatch]
+    [dispatch, newChat]
   );
 
   return (
@@ -37,11 +47,12 @@ const NavItem: React.FC<NavItemProps> = ({
         lastNav ? "d-xl-block flex-xl-grow-1" : undefined
       }`}
     >
-      {/*add active class if active*/}
-      <a
-        className="nav-link  py-0 py-lg-8"
+      <div
+        onClick={clickHandler}
+        className={`nav-link py-0 py-lg-8 ${
+          activeTab === tab && !newChat ? "active" : undefined
+        }`}
         id={id}
-        href="#"
         title={title}
         data-bs-toggle="tab"
         role="tab"
@@ -54,7 +65,7 @@ const NavItem: React.FC<NavItemProps> = ({
             </div>
           )}
         </div>
-      </a>
+      </div>
     </li>
   );
 };
