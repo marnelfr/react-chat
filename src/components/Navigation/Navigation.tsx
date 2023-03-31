@@ -35,13 +35,7 @@ const Navigation = () => {
           <PenSvg />
         </NavItem>
 
-        <NavItem
-          id="tab-chats"
-          title="Chats"
-          isBadged
-          totalNotif={4}
-          badgeType="primary"
-        >
+        <NavItem id="tab-chats" title="Chats">
           <MessageSvg />
         </NavItem>
 
