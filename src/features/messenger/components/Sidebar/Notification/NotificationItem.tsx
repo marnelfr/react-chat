@@ -23,7 +23,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         <div className="row gx-5">
           <div className="col-auto">
             {/* Avatar */}
-            <a href="chat-group.html" className="avatar">
+            <a href="#" className="avatar">
               <span className={`avatar-text bg-${svgType}`}>{svg}</span>
 
               <div
@@ -37,7 +37,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           <div className="col">
             <div className="d-flex align-items-center mb-2">
               <h5 className="me-auto mb-0">
-                <a href="chat-group.html">{title}</a>
+                <a href="#">{title}</a>
               </h5>
               <span className="extra-small text-muted ms-2">{time}</span>
             </div>

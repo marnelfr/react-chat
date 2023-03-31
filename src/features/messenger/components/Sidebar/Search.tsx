@@ -4,7 +4,7 @@ import LoupeSvg from "../UI/Svg/Loupe";
 const Search = () => {
   return (
     <div className="mb-6">
-      <form action="#">
+      <form action="src/features/messenger/components/Sidebar/Search#">
         <div className="input-group">
           <div className="input-group-text input-group-text-custom">
             <div className="icon icon-lg">

@@ -30,7 +30,7 @@ const SettingsProfile = () => {
             <p>marnel.gnacadja@lolly.co</p>
           </div>
           <div className="col-auto">
-            <a href="chat-group.html" className="text-muted">
+            <a href="#" className="text-muted">
               <div className="icon">
                 <LogoutSvg />
               </div>

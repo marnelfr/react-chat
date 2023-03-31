@@ -1,5 +1,6 @@
 import MessageSvg from "../UI/Svg/Message";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useCallback } from "react";
+import { useAppDispatch } from "../../../../app/hooks";
 
 type NavItemProps = {
   children: ReactNode;
@@ -8,6 +9,7 @@ type NavItemProps = {
   totalNotif?: number;
   id: string;
   title: string;
+  tab: string;
   lastNav?: boolean;
 };
 
@@ -19,7 +21,16 @@ const NavItem: React.FC<NavItemProps> = ({
   totalNotif,
   badgeType,
   lastNav,
+  tab,
 }) => {
+  const dispatch = useAppDispatch();
+  const clickHandler = useCallback(
+    (event: MouseEvent) => {
+      event.preventDefault();
+    },
+    [dispatch]
+  );
+
   return (
     <li
       className={`nav-item ${

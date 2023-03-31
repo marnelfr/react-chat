@@ -14,10 +14,7 @@ const Message = ({ hour, children, out }: MessageProps) => {
 
   return (
     <div className={`message ${out ? "message-out" : undefined}`}>
-      <a
-        href="src/components/UI/Conversation/Message#"
-        className="avatar avatar-responsive"
-      >
+      <a href="#" className="avatar avatar-responsive">
         <img className="avatar-img" src={image} alt="avatar" />
       </a>
 

@@ -8,7 +8,8 @@ import NavItem from "./NavItem";
 import GrearSvg from "../UI/Svg/Grear";
 import NavProfile from "./NavProfile";
 
-import image from "../../assets/img/logo.png";
+import image from "../../../../assets/img/logo.png";
+import { SIDEBAR } from "../../../../constants/sidebar";
 
 const Navigation = () => {
   return (
@@ -31,11 +32,11 @@ const Navigation = () => {
           </a>
         </li>
 
-        <NavItem id="tab-create-chat" title="Create chat">
+        <NavItem id="tab-create-chat" title="Create chat" tab={SIDEBAR.Chat}>
           <PenSvg />
         </NavItem>
 
-        <NavItem id="tab-chats" title="Chats">
+        <NavItem id="tab-chats" title="Chats" tab={SIDEBAR.Chat}>
           <MessageSvg />
         </NavItem>
 
@@ -45,12 +46,12 @@ const Navigation = () => {
           isBadged
           totalNotif={2}
           badgeType="warning"
-          lastNav
+          tab={SIDEBAR.Notification}
         >
           <NotificationSvg />
         </NavItem>
 
-        <NavItem id="tab-settings" title="Settings">
+        <NavItem id="tab-settings" title="Settings" tab={SIDEBAR.Settings}>
           <GrearSvg />
         </NavItem>
 

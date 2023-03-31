@@ -1,6 +1,6 @@
-import Navigation from "../components/Navigation/Navigation";
-import Sidebar from "../components/Sidebar/Sidebar";
-import Conversation from "../components/Conversation/Conversation";
+import Navigation from "../features/messenger/components/Navigation/Navigation";
+import Sidebar from "../features/messenger/components/Sidebar/Sidebar";
+import Conversation from "../features/messenger/components/Conversation/Conversation";
 import React from "react";
 
 const MessengerPage = () => {

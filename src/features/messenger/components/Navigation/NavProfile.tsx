@@ -7,8 +7,8 @@ const NavProfile = () => {
         <div className="avatar avatar-online mx-auto">
           <img
             className="avatar-img"
-            src="https://eu.ui-avatars.com/api/?name=GM&rounded=true"
-            alt=""
+            src="https://eu.ui-avatars.com/api/?name=IA&rounded=true"
+            alt="avatar"
           />
         </div>
       </span>
