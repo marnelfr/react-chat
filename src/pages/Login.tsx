@@ -1,76 +1,24 @@
 import { Link } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
+import LoginForm from "../features/authentication/components/LoginForm";
+import AuthCard from "../features/authentication/components/UI/AuthCard";
+import AuthFormCard from "../features/authentication/components/UI/AuthFormCard";
 
 const LoginPage = () => {
   return (
-    <div className="container">
-      <div className="row align-items-center justify-content-center min-vh-100 gx-0">
-        <div className="col-12 col-md-5 col-lg-4">
-          <div className="card card-shadow border-0">
-            <div className="card-body">
-              <div className="row g-6">
-                <div className="col-12">
-                  <div className="text-center">
-                    <h3 className="fw-bold mb-2">Sign In</h3>
-                    <p>Login to your account</p>
-                  </div>
-                </div>
-
-                <div className="col-12">
-                  <div className="form-floating">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="signin-email"
-                      placeholder="Email"
-                    />
-                    <label htmlFor="signin-email">Email</label>
-                  </div>
-                </div>
-
-                <div className="col-12">
-                  <div className="form-floating">
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="signin-password"
-                      placeholder="Password"
-                    />
-                    <label htmlFor="signin-password">Password</label>
-                  </div>
-                </div>
-
-                <div className="col-12">
-                  {/*<button
-                    className="btn btn-block btn-lg btn-primary w-100"
-                    type="submit"
-                  >
-                    Sign In
-                  </button>*/}
-                  <Link
-                    to={ROUTES.dashboard}
-                    className="btn btn-block btn-lg btn-primary w-100"
-                    type="submit"
-                  >
-                    Sign In
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center mt-8">
-            <p>
-              Don't have an account yet?{" "}
-              <Link to={ROUTES.register}>Sign up</Link>
-            </p>
-            <p>
-              <Link to={ROUTES.resetPassword}>Forgot Password?</Link>
-            </p>
-          </div>
-        </div>
+    <AuthCard>
+      <AuthFormCard title="Sign In" text="Login to your account">
+        <LoginForm />
+      </AuthFormCard>
+      <div className="text-center mt-8">
+        <p>
+          Don't have an account yet? <Link to={ROUTES.register}>Sign up</Link>
+        </p>
+        <p>
+          <Link to={ROUTES.resetPassword}>Forgot Password?</Link>
+        </p>
       </div>
-    </div>
+    </AuthCard>
   );
 };
 
