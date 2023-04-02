@@ -12,7 +12,7 @@ const ModalProfile = () => {
   const dispatch = useAppDispatch();
   const { logout, auth } = useContext(AuthContext);
 
-  const user = JSON.parse(auth.userInfo!†);
+  const user = JSON.parse(auth.userInfo!);
 
   const CloseHandler: MouseEventHandler = useCallback(
     (event) => {
