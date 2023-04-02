@@ -26,6 +26,8 @@ const LoginForm = () => {
           userInfo: JSON.stringify({
             name: "Marnel GNACADJA",
             email: emailRef.current!.value,
+            phone: "+229 9740 3627",
+            bio: "Portez ce vieux whisky au juge blond qui fume et tout ce qui va avec.",
           }),
         });
       }

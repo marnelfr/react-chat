@@ -1,6 +1,4 @@
 import React, { ReactNode, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../constants/routes";
 
 interface AuthStateType {
   token: string | null;
@@ -17,6 +15,13 @@ interface ValueType {
 
 interface ProviderProps {
   children: ReactNode;
+}
+
+export interface UserType {
+  name: string;
+  email: string;
+  phone: string | null;
+  bio: string | null;
 }
 
 const defaultValue: ValueType = {

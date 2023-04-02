@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import ImageSvg from "../../UI/Svg/Image";
 import LogoutSvg from "../../UI/Svg/Logout";
+import AuthContext, {
+  UserType,
+} from "../../../../authentication/context/AuthContext";
 
 const SettingsProfile = () => {
+  const { auth } = useContext(AuthContext);
+  const user = JSON.parse(auth.userInfo!) as UserType;
+
   return (
     <div className="card border-0">
       <div className="card-body">
@@ -26,8 +32,8 @@ const SettingsProfile = () => {
             </div>
           </div>
           <div className="col">
-            <h5>Marnel Gnacadja</h5>
-            <p>marnel.gnacadja@lolly.co</p>
+            <h5>{user.name}</h5>
+            <p>{user.email}</p>
           </div>
           <div className="col-auto">
             <a href="#" className="text-muted">

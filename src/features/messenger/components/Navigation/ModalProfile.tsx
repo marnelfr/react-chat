@@ -5,14 +5,16 @@ import { useAppDispatch } from "../../../../app/hooks";
 import { modalActions } from "../../../../redux/slices/modal";
 import Modal from "../../../../components/UI/Modal/Modal";
 import image from "../../../../assets/img/logo.png";
-import AuthContext from "../../../authentication/context/AuthContext";
+import AuthContext, {
+  UserType,
+} from "../../../authentication/context/AuthContext";
 import { userInfo } from "os";
 
 const ModalProfile = () => {
   const dispatch = useAppDispatch();
   const { logout, auth } = useContext(AuthContext);
 
-  const user = JSON.parse(auth.userInfo!);
+  const user = JSON.parse(auth.userInfo!) as UserType;
 
   const CloseHandler: MouseEventHandler = useCallback(
     (event) => {
