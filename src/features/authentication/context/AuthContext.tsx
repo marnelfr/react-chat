@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../constants/routes";
 
@@ -33,13 +33,21 @@ const defaultValue: ValueType = {
 const AuthContext = React.createContext(defaultValue);
 
 export const AuthProvider = ({ children }: ProviderProps) => {
-  const navigate = useNavigate();
-
   const token = localStorage.getItem("token");
   const expiresAt = localStorage.getItem("expiresAt");
   const userInfo = localStorage.getItem("userInfo");
 
   const [auth, setAuth] = useState({ token, expiresAt, userInfo });
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsAuthenticated((prevState: boolean) => {
+      if (!auth.token) {
+        return false;
+      }
+      return Number(auth.expiresAt) * 1000 > new Date().getTime();
+    });
+  }, []);
 
   const login = ({ token, expiresAt, userInfo }: AuthStateType) => {
     setAuth((auth: AuthStateType) => {
@@ -49,21 +57,15 @@ export const AuthProvider = ({ children }: ProviderProps) => {
 
       return { token, expiresAt, userInfo };
     });
+    setIsAuthenticated(true);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("expiresAt");
     localStorage.removeItem("userInfo");
-    navigate(ROUTES.login);
+    setIsAuthenticated(false);
   };
-
-  const isAuthenticated = useMemo(() => {
-    if (!auth.token) {
-      return false;
-    }
-    return Number(auth.expiresAt) * 1000 > new Date().getTime();
-  }, [auth]);
 
   return (
     <AuthContext.Provider value={{ auth, isAuthenticated, login, logout }}>

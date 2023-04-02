@@ -1,13 +1,18 @@
-import React, { MouseEventHandler, ReactNode, useCallback } from "react";
+import React, { MouseEventHandler, useCallback, useContext } from "react";
 
 import BullBgSvg from "../UI/Svg/BullBg";
 import { useAppDispatch } from "../../../../app/hooks";
 import { modalActions } from "../../../../redux/slices/modal";
 import Modal from "../../../../components/UI/Modal/Modal";
 import image from "../../../../assets/img/logo.png";
+import AuthContext from "../../../authentication/context/AuthContext";
+import { userInfo } from "os";
 
 const ModalProfile = () => {
   const dispatch = useAppDispatch();
+  const { logout, auth } = useContext(AuthContext);
+
+  const user = JSON.parse(auth.userInfo!†);
 
   const CloseHandler: MouseEventHandler = useCallback(
     (event) => {
@@ -15,6 +20,15 @@ const ModalProfile = () => {
       dispatch(modalActions.hide());
     },
     [dispatch]
+  );
+
+  const handleLogout: MouseEventHandler = useCallback(
+    (event) => {
+      event.preventDefault();
+      logout();
+      dispatch(modalActions.hide());
+    },
+    [dispatch, logout]
   );
 
   return (
@@ -39,8 +53,8 @@ const ModalProfile = () => {
             <img className="avatar-img" src={image} alt="#" />
           </div>
 
-          <h4 className="mb-1">Marnel GNACADJA</h4>
-          <p>gmlginolias@gmail.com</p>
+          <h4 className="mb-1">{user.name}</h4>
+          <p>{user.email}</p>
         </div>
       </div>
       {/* Header */}
@@ -83,7 +97,7 @@ const ModalProfile = () => {
           <div className="row align-items-center gx-6">
             <div className="col">
               <h5>E-mail</h5>
-              <p>william@studio.com</p>
+              <p>{user.email}</p>
             </div>
 
             <div className="col-auto">
@@ -172,7 +186,7 @@ const ModalProfile = () => {
       {/* List */}
       <ul className="list-group list-group-flush">
         <li className="list-group-item">
-          <a href="#" className="text-danger">
+          <a onClick={handleLogout} href="#" className="text-danger">
             Logout
           </a>
         </li>

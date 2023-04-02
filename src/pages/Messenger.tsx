@@ -8,13 +8,13 @@ import { ROUTES } from "../constants/routes";
 
 const MessengerPage = () => {
   const navigate = useNavigate();
-  const authContext = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!authContext.isAuthenticated) {
+    if (!isAuthenticated) {
       navigate(ROUTES.login);
     }
-  }, []);
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="layout overflow-hidden">

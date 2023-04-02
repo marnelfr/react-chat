@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { ActionFunction, Link } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
 import LoginForm from "../features/authentication/components/LoginForm";
 import AuthCard from "../features/authentication/components/UI/AuthCard";

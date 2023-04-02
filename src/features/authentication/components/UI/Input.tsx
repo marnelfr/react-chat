@@ -1,3 +1,5 @@
+import React, { ForwardedRef } from "react";
+
 interface InputProps {
   label: string;
   type?: string;
@@ -6,15 +8,20 @@ interface InputProps {
   placeholder: string;
 }
 
-const Input = ({ label, className, ...rest }: InputProps) => {
-  return (
-    <div className="col-12 mb-6">
-      <div className="form-floating">
-        <input className={`form-control ${className}`} {...rest} />
-        <label htmlFor={rest.id}>{label}</label>
+const Input = React.forwardRef(
+  (
+    { label, className, ...rest }: InputProps,
+    ref: ForwardedRef<HTMLInputElement>
+  ) => {
+    return (
+      <div className="col-12 mb-6">
+        <div className="form-floating">
+          <input ref={ref} className={`form-control ${className}`} {...rest} />
+          <label htmlFor={rest.id}>{label}</label>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
 
 export default Input;
