@@ -1,7 +1,23 @@
 import SendSvg from "../UI/Svg/Send";
-import React from "react";
+import React, { FormEventHandler, useCallback, useRef } from "react";
+import { useAppDispatch } from "../../../../app/hooks";
+import { chatActions } from "../../slices/chat";
 
 const ChatForm = () => {
+  const dispatch = useAppDispatch();
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleSubmit: FormEventHandler = useCallback(
+    (event) => {
+      event.preventDefault();
+      // todo: find a way to get the text wrote with \n for line breaks
+      dispatch(
+        chatActions.send(messageRef.current!.value.replace("\r\n", "\\r\\n"))
+      );
+    },
+    [dispatch, messageRef]
+  );
+
   return (
     <div className="chat-footer pb-3 pb-lg-7 position-absolute bottom-0 start-0">
       {/* Chat: Files */}
@@ -13,7 +29,11 @@ const ChatForm = () => {
       {/* Chat: Files */}
 
       {/* Chat: Form */}
-      <form className="chat-form rounded-pill bg-dark" data-emoji-form="">
+      <form
+        onSubmit={handleSubmit}
+        className="chat-form rounded-pill bg-dark"
+        data-emoji-form=""
+      >
         <div className="row align-items-center gx-0">
           <div className="col">
             <div className="input-group">
@@ -23,6 +43,7 @@ const ChatForm = () => {
                 rows={1}
                 data-emoji-input=""
                 data-autosize="true"
+                ref={messageRef}
                 style={{
                   overflow: "hidden",
                   overflowWrap: "break-word",
@@ -33,7 +54,10 @@ const ChatForm = () => {
           </div>
 
           <div className="col-auto">
-            <button className="btn btn-icon btn-primary rounded-circle ms-5">
+            <button
+              type="submit"
+              className="btn btn-icon btn-primary rounded-circle ms-5"
+            >
               <SendSvg />
             </button>
           </div>
