@@ -7,17 +7,31 @@ export interface Message {
   finishReason?: string;
 }
 
+interface Chat {
+  id: number;
+  title: string;
+  summary: string;
+  createdAt: number;
+}
+
 export interface ChatMessage {
   message: Message;
   type: "out" | "in";
 }
 
+interface Conversation {
+  chat: Chat;
+  chatMessages: ChatMessage[];
+}
+
 interface StateType {
-  messages: ChatMessage[];
+  activeChat: Chat | null;
+  conversations: Conversation[];
 }
 
 const initialState: StateType = {
-  messages: [],
+  activeChat: null,
+  conversations: [],
 };
 
 const chatSlice = createSlice({
@@ -35,7 +49,14 @@ const chatSlice = createSlice({
         message,
         type: "out",
       };
-      state.messages.push(chatMessage);
+
+      const conversation = state.conversations.find(
+        (conv) =>
+          state.activeChat !== null && conv.chat.id === state.activeChat.id
+      );
+      if (conversation) {
+        conversation.chatMessages.push(chatMessage);
+      }
     },
     received(state, action: PayloadAction<Message>) {
       const chatMessage: ChatMessage = {
@@ -43,7 +64,15 @@ const chatSlice = createSlice({
         type: "in",
       };
       console.log(chatMessage);
-      state.messages.push(chatMessage);
+      const conversation = state.conversations.find(
+        (conv) => conv.chat === state.activeChat
+      );
+      if (conversation) {
+        conversation.chatMessages.push(chatMessage);
+      }
+    },
+    loadChats(state, action) {
+      // todo: handle chat load from the backend and add them to the state
     },
   },
 });

@@ -10,6 +10,7 @@ export const sendMessage = (
     dispatch(chatActions.send(text));
     dispatch(loadActions.set(true));
 
+    // todo: update this api to create a new chat and save the question about it and then return the chat and the response
     const response = await fetch("http://localhost:8080/api/message", {
       method: "POST",
       headers: {
@@ -27,5 +28,16 @@ export const sendMessage = (
       message: responseData.message,
     };
     dispatch(chatActions.received(data));
+  };
+};
+
+export const loadChats = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {
+  return async (dispatch) => {
+    //todo: load chats from the backend and call one of the chatActions.loadChats to add them to redux
   };
 };

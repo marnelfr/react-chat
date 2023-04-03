@@ -84,10 +84,14 @@ export const AuthProvider = ({ children }: ProviderProps) => {
       body: JSON.stringify({ username, password }),
     });
 
+    if (response.status === 401) {
+      dispatch(loadActions.setError(true));
+      return;
+    }
+
     if (!response.ok) {
       //dispatch an login error
     }
-
     const data: AuthResponseType = await response.json();
 
     setAuth((auth: AuthStateType) => {

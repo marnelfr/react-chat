@@ -7,7 +7,15 @@ import ModalProfile from "../Navigation/ModalProfile";
 import { useAppSelector } from "../../../../app/hooks";
 
 const Conversation = () => {
-  const chatMessages = useAppSelector((state) => state.chat.messages);
+  const chatMessages = useAppSelector((state) => {
+    const conversation = state.chat.conversations.find(
+      (conv) => conv.chat === state.chat.activeChat
+    );
+    if (conversation) {
+      return conversation.chatMessages;
+    }
+    return [];
+  });
   let content = <NoMessage />;
   if (chatMessages.length) {
     content = <Content messages={chatMessages} />;
