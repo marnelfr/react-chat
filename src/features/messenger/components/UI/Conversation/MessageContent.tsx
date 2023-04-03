@@ -1,15 +1,20 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 type MessageContentProps = {
-  message: string;
+  message: string[];
 };
 
 const MessageContent = ({ message }: MessageContentProps) => {
+  let content: ReactNode = <></>;
+  try {
+    content = message.map((line) => <div key={line}>{line}</div>);
+  } catch (e) {
+    console.log(message);
+    console.error(e);
+  }
   return (
     <div className="message-content">
-      <div className="message-text">
-        <p>{message}</p>
-      </div>
+      <div className="message-text">{content}</div>
     </div>
   );
 };

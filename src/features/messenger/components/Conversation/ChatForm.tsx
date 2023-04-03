@@ -1,7 +1,8 @@
 import SendSvg from "../UI/Svg/Send";
-import React, { FormEventHandler, useCallback, useRef } from "react";
+import React, { FormEventHandler, useCallback, useEffect, useRef } from "react";
 import { useAppDispatch } from "../../../../app/hooks";
 import { chatActions } from "../../slices/chat";
+import { sendMessage } from "../../thunks/chat-thunk";
 
 const ChatForm = () => {
   const dispatch = useAppDispatch();
@@ -10,10 +11,9 @@ const ChatForm = () => {
   const handleSubmit: FormEventHandler = useCallback(
     (event) => {
       event.preventDefault();
-      // todo: find a way to get the text wrote with \n for line breaks
-      dispatch(
-        chatActions.send(messageRef.current!.value.replace("\r\n", "\\r\\n"))
-      );
+      dispatch(sendMessage(messageRef.current!.value));
+      messageRef.current!.value = "";
+      messageRef.current!.focus();
     },
     [dispatch, messageRef]
   );

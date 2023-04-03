@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Message {
   id?: string;
-  message: string;
+  message: string[];
   createdAt: number;
   finishReason?: string;
 }
 
-interface ChatMessage {
+export interface ChatMessage {
   message: Message;
   type: "out" | "in";
 }
@@ -26,13 +26,23 @@ const chatSlice = createSlice({
   reducers: {
     send(state, action) {
       const message: Message = {
-        message: action.payload,
+        message: action.payload
+          .split(/\r\n|\r|\n/)
+          .map((line: string) => line.trim()),
         createdAt: new Date().getTime(),
       };
       const chatMessage: ChatMessage = {
         message,
         type: "out",
       };
+      state.messages.push(chatMessage);
+    },
+    received(state, action: PayloadAction<Message>) {
+      const chatMessage: ChatMessage = {
+        message: action.payload,
+        type: "in",
+      };
+      console.log(chatMessage);
       state.messages.push(chatMessage);
     },
   },

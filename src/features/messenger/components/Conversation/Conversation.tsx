@@ -4,11 +4,13 @@ import Main from "./Main";
 import NoMessage from "./NoMessage";
 import Content from "./Content";
 import ModalProfile from "../Navigation/ModalProfile";
+import { useAppSelector } from "../../../../app/hooks";
 
 const Conversation = () => {
+  const chatMessages = useAppSelector((state) => state.chat.messages);
   let content = <NoMessage />;
-  if (Math.floor(Math.random() * 10) > 5) {
-    content = <Content />;
+  if (chatMessages.length) {
+    content = <Content messages={chatMessages} />;
   }
   return (
     <Main>

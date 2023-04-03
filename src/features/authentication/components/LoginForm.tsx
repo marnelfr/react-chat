@@ -14,32 +14,25 @@ import { ROUTES } from "../../../constants/routes";
 const LoginForm = () => {
   const { login, isAuthenticated } = useContext(AuthContext);
   const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+
+  if (isAuthenticated) {
+    navigate(ROUTES.dashboard);
+  }
 
   const handleSubmit: FormEventHandler = useCallback(
     (event) => {
       event.preventDefault();
-      if (!!emailRef.current!.value.trim()) {
-        login({
-          token: "mzelkfjqslkfjsmdflqmjqdmfzkjrmalja12341EZFG23512sqdFQs",
-          expiresAt: "2315235321534234",
-          userInfo: JSON.stringify({
-            name: "Marnel GNACADJA",
-            email: emailRef.current!.value,
-            phone: "+229 9740 3627",
-            bio: "Portez ce vieux whisky au juge blond qui fume et tout ce qui va avec.",
-          }),
-        });
+      if (
+        !!emailRef.current!.value.trim() &&
+        !!passwordRef.current!.value.trim()
+      ) {
+        login(emailRef.current!.value, passwordRef.current!.value);
       }
     },
     [emailRef, login]
   );
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate(ROUTES.dashboard);
-    }
-  });
 
   return (
     <form onSubmit={handleSubmit}>
@@ -51,6 +44,7 @@ const LoginForm = () => {
         placeholder="Email"
       />
       <Input
+        ref={passwordRef}
         label="Password"
         id="login-password"
         type="password"
