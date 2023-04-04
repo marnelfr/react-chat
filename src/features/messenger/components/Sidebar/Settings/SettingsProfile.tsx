@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import ImageSvg from "../../UI/Svg/Image";
 import LogoutSvg from "../../UI/Svg/Logout";
-import AuthContext, {
+import {
+  useAuth,
   UserType,
 } from "../../../../authentication/context/AuthContext";
 
 const SettingsProfile = () => {
-  const { auth } = useContext(AuthContext);
+  const { auth } = useAuth();
   const user = JSON.parse(auth.userInfo!) as UserType;
 
   return (

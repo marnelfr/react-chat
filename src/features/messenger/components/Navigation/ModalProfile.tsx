@@ -5,14 +5,11 @@ import { useAppDispatch } from "../../../../app/hooks";
 import { modalActions } from "../../../../redux/slices/modal";
 import Modal from "../../../../components/UI/Modal/Modal";
 import image from "../../../../assets/img/logo.png";
-import AuthContext, {
-  UserType,
-} from "../../../authentication/context/AuthContext";
-import { userInfo } from "os";
+import { useAuth, UserType } from "../../../authentication/context/AuthContext";
 
 const ModalProfile = () => {
   const dispatch = useAppDispatch();
-  const { logout, auth } = useContext(AuthContext);
+  const { logout, auth } = useAuth();
 
   const user = JSON.parse(auth.userInfo!) as UserType;
 

@@ -1,7 +1,14 @@
-import React, { ReactNode, useEffect, useMemo, useState } from "react";
+import React, {
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { config } from "../../../constants/config";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { loadActions } from "../../messenger/slices/loading";
+import apiClient from "../../../helpers/fetch";
 
 interface AuthStateType {
   token: string | null;
@@ -75,46 +82,40 @@ export const AuthProvider = ({ children }: ProviderProps) => {
   }, []);
 
   const login = async (username: string, password: string) => {
-    dispatch(loadActions.set(true));
-    const response = await fetch(config.BACKEND_URL + "login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      dispatch(loadActions.set(true));
+      const data: AuthResponseType = await apiClient.post("login", {
+        username,
+        password,
+      });
 
-    if (response.status === 401) {
+      setAuth((auth: AuthStateType) => {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("expiresAt", String(data.refresh_expiration));
+        localStorage.setItem("refreshToken", data.refresh_token);
+        localStorage.setItem("userInfo", JSON.stringify(data.user));
+
+        return {
+          token: data.token,
+          expiresAt: String(data.refresh_expiration),
+          refreshToken: data.refresh_token,
+          userInfo: JSON.stringify(data.user),
+        };
+      });
+
+      dispatch(loadActions.set(false));
+      setIsAuthenticated(true);
+    } catch (e) {
       dispatch(loadActions.setError(true));
-      return;
     }
-
-    if (!response.ok) {
-      //dispatch an login error
-    }
-    const data: AuthResponseType = await response.json();
-
-    setAuth((auth: AuthStateType) => {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("expiresAt", String(data.refresh_expiration));
-      localStorage.setItem("refreshToken", data.refresh_token);
-      localStorage.setItem("userInfo", JSON.stringify(data.user));
-
-      return {
-        token: data.token,
-        expiresAt: String(data.refresh_expiration),
-        refreshToken: data.refresh_token,
-        userInfo: JSON.stringify(data.user),
-      };
-    });
-    dispatch(loadActions.set(false));
-    setIsAuthenticated(true);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("expiresAt");
+    localStorage.removeItem("refreshToken");
     localStorage.removeItem("userInfo");
+    // todo: update the logout process to revoke the token in the backend
     setIsAuthenticated(false);
   };
 
@@ -123,6 +124,10 @@ export const AuthProvider = ({ children }: ProviderProps) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
 
 export default AuthContext;
