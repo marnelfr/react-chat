@@ -9,7 +9,6 @@ const MessageContent = ({ message }: MessageContentProps) => {
   try {
     content = message.map((line) => <div key={line}>{line}</div>);
   } catch (e) {
-    console.log(message);
     console.error(e);
   }
   return (

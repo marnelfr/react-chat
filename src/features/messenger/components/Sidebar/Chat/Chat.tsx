@@ -32,7 +32,7 @@ const Chat: React.FC<ChatsProps> = ({ isActive }) => {
   const oldChatItems = oldConversations.map((conv) => {
     return (
       <ChatItem
-        key={conv.chat.id}
+        key={conv.chat.createdAt}
         title={conv.chat.title}
         summary={conv.chat.summary}
       />

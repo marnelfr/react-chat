@@ -1,27 +1,15 @@
 import Input from "./UI/Input";
 import Button from "./UI/Button";
-import { FormEventHandler, useCallback, useLayoutEffect, useRef } from "react";
+import { FormEventHandler, useCallback, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../constants/routes";
 import Spinner from "../../../components/UI/Spinner";
 import { useAppSelector } from "../../../app/hooks";
 
 const LoginForm = () => {
-  const { login, isAuthenticated } = useAuth();
+  const { login } = useAuth();
   const load = useAppSelector((state) => state.load);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
-
-  useLayoutEffect(() => {
-    if (isAuthenticated) {
-      console.log("auth", isAuthenticated);
-      navigate(ROUTES.dashboard);
-    } else {
-      console.log("auth", isAuthenticated);
-    }
-  }, [isAuthenticated, navigate]);
 
   const handleSubmit: FormEventHandler = useCallback(
     (event) => {

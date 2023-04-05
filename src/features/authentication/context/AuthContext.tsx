@@ -19,7 +19,7 @@ interface AuthStateType {
 
 interface ValueType {
   auth: AuthStateType;
-  isAuthenticated: boolean;
+  isAuthenticated: boolean | null;
   login: (email: string, password: string) => void;
   logout: () => void;
 }
@@ -50,7 +50,7 @@ const defaultValue: ValueType = {
     refreshToken: null,
     userInfo: null,
   },
-  isAuthenticated: false,
+  isAuthenticated: null,
   login: () => {},
   logout: () => {},
 };
@@ -70,10 +70,10 @@ export const AuthProvider = ({ children }: ProviderProps) => {
     refreshToken,
     userInfo,
   });
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    setIsAuthenticated((prevState: boolean) => {
+    setIsAuthenticated((prevState: boolean | null) => {
       if (!auth.token) {
         return false;
       }
@@ -94,6 +94,7 @@ export const AuthProvider = ({ children }: ProviderProps) => {
         localStorage.setItem("expiresAt", String(data.refresh_expiration));
         localStorage.setItem("refreshToken", data.refresh_token);
         localStorage.setItem("userInfo", JSON.stringify(data.user));
+        apiClient.updateAuth();
 
         return {
           token: data.token,
@@ -115,6 +116,7 @@ export const AuthProvider = ({ children }: ProviderProps) => {
     localStorage.removeItem("expiresAt");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("userInfo");
+    apiClient.updateAuth();
     // todo: update the logout process to revoke the token in the backend
     setIsAuthenticated(false);
   };

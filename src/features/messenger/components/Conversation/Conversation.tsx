@@ -9,7 +9,7 @@ import { useAppSelector } from "../../../../app/hooks";
 const Conversation = () => {
   const chatMessages = useAppSelector((state) => {
     const conversation = state.chat.conversations.find(
-      (conv) => conv.chat === state.chat.activeChat
+      (conv) => conv.chat.id === state.chat.activeChat?.id
     );
     if (conversation) {
       return conversation.chatMessages;

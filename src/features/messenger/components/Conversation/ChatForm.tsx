@@ -1,21 +1,22 @@
 import SendSvg from "../UI/Svg/Send";
 import React, { FormEventHandler, useCallback, useEffect, useRef } from "react";
-import { useAppDispatch } from "../../../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { chatActions } from "../../slices/chat";
 import { sendMessage } from "../../thunks/chat-thunk";
 
 const ChatForm = () => {
   const dispatch = useAppDispatch();
+  const activeChat = useAppSelector((state) => state.chat.activeChat);
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit: FormEventHandler = useCallback(
     (event) => {
       event.preventDefault();
-      dispatch(sendMessage(messageRef.current!.value));
+      dispatch(sendMessage(messageRef.current!.value, activeChat?.id));
       messageRef.current!.value = "";
       messageRef.current!.focus();
     },
-    [dispatch, messageRef]
+    [dispatch, messageRef, activeChat]
   );
 
   return (

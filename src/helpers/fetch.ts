@@ -24,20 +24,31 @@ class ApiClient {
     this.refreshToken = localStorage.getItem("refreshToken");
   }
 
+  updateAuth() {
+    this.token = localStorage.getItem("token");
+    const expiresAt = localStorage.getItem("expiresAt");
+    this.expirationDate = new Date(Number(expiresAt) * 1000);
+    this.refreshToken = localStorage.getItem("refreshToken");
+  }
+
   async tokenRefresher() {
     if (new Date().getTime() < this.expirationDate.getTime()) {
       this.clearAuthInfo();
+      console.log("in fetch error");
       // todo: is there a better way to do this? can I redirect to the login page here?
-      throw new Response(JSON.stringify({ message: "Unauthorized" }), {
+      window.location.href = "/";
+      throw new Response(JSON.stringify({ message: "Unauthorized..." }), {
         status: 401,
       });
     }
+    console.log(this.refreshToken, this.token);
 
     const data = await this.post(
       "token/refresh",
       { refresh_token: this.refreshToken },
       false
     );
+    console.log("in tokenRefresher", data);
 
     localStorage.setItem("token", data.token);
     localStorage.setItem("expiresAt", String(data.refresh_expiration));
@@ -82,6 +93,9 @@ class ApiClient {
       "Content-Type": "application/json",
     };
     if (authRequest) {
+      if (!localStorage.getItem("token")) {
+        window.location.href = "/";
+      }
       headers.Authorization = "Bearer " + this.token;
     }
 
@@ -101,7 +115,7 @@ class ApiClient {
     }
 
     if (!response.ok) {
-      console.log("kko");
+      console.log("kko", response, retryOn401, authRequest);
       throw new Response("Error while making request", { status: 500 });
     }
 

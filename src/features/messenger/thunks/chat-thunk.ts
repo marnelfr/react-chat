@@ -4,37 +4,48 @@ import { chatActions, Message } from "../slices/chat";
 import { loadActions } from "../slices/loading";
 import apiClient from "../../../helpers/fetch";
 
+export interface NewChatResponse {
+  id: string;
+  message: string[];
+  createdAt: number;
+  finishReason: string;
+  chatId: number;
+  title: string;
+  summary: string;
+  question: string;
+}
+
 export const sendMessage = (
   text: string,
-  chat?: string
+  chat?: number
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     dispatch(chatActions.send(text));
     dispatch(loadActions.set(true));
+    const responseData = await apiClient.authPost(chat ? "message" : "chat", {
+      text,
+      chat,
+    });
 
-    const responseData = await apiClient.authPost(
-      chat ? "message" : "new/chat",
-      { text, chat }
-    );
+    if (chat) {
+      const lines = responseData.message.split("\n");
+      const notEmptyLines = lines.filter((line: string) => line.trim() !== "");
+      const data: Message = {
+        ...responseData,
+        message: notEmptyLines,
+      };
+      dispatch(chatActions.received(data));
+      dispatch(loadActions.set(false));
+    } else {
+      const data = {
+        ...responseData,
+        message: [responseData.message],
+        question: text,
+      };
 
-    // todo: update this api to create a new chat and save the question about it and then return the chat and the response
-    // const response = await fetch("http://localhost:8080/api/new/chat", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ text }),
-    // });
-    //
-    // const responseData = await response.json();
-    //
-    dispatch(loadActions.set(false));
-
-    const data: Message = {
-      ...responseData,
-      message: responseData.message,
-    };
-    dispatch(chatActions.received(data));
+      dispatch(chatActions.newChat(data));
+      dispatch(loadActions.set(false));
+    }
   };
 };
 
