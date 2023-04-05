@@ -19,7 +19,7 @@ const LoginPage = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  if (!checked) {
+  if (!checked || isAuthenticated === null) {
     // todo: I'm still seeing the login form though ((
     return <p>Loading...</p>;
   }
