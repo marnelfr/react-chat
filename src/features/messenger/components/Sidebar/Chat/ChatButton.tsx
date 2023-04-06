@@ -1,10 +1,17 @@
 import ArrowLeft from "../../UI/Svg/ChevronRight";
 import React from "react";
 
-const ChatButton = () => {
+interface Props {
+  onClick: () => void;
+}
+
+const ChatButton = ({ onClick }: Props) => {
   return (
     <div className="col-auto">
-      <div className="btn btn-sm btn-icon btn-primary rounded-circle">
+      <div
+        onClick={onClick}
+        className="btn btn-sm btn-icon btn-primary rounded-circle"
+      >
         <ArrowLeft />
       </div>
     </div>

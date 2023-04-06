@@ -8,7 +8,7 @@ export interface Message {
   finishReason?: string;
 }
 
-interface Chat {
+export interface ChatType {
   id: number;
   title: string;
   summary: string;
@@ -21,12 +21,12 @@ export interface ChatMessage {
 }
 
 interface Conversation {
-  chat: Chat;
+  chat: ChatType;
   chatMessages: ChatMessage[];
 }
 
 interface StateType {
-  activeChat: Chat | null;
+  activeChat: ChatType | null;
   conversations: Conversation[];
 }
 
@@ -58,10 +58,10 @@ const chatSlice = createSlice({
       if (conversation) {
         conversation.chatMessages.push(chatMessage);
       } else {
-        const chat: Chat = {
+        const chat: ChatType = {
           id: 0,
           summary: "New conversation",
-          title: "Learning new things",
+          title: "Discover new things with fun",
           createdAt: new Date().getTime(),
         };
         const conversation: Conversation = {
@@ -140,7 +140,21 @@ const chatSlice = createSlice({
       // state.conversations.push(conversation);
     },
     loadChats(state, action) {
-      // todo: handle chat load from the backend and add them to the state
+      state.conversations = action.payload["hydra:member"].map(
+        (chat: ChatType) => {
+          const oldChat: ChatType = {
+            createdAt: new Date(chat.createdAt).getTime(),
+            id: chat.id,
+            summary: chat.summary,
+            title: chat.title,
+          };
+          const conversation: Conversation = {
+            chat: oldChat,
+            chatMessages: [],
+          };
+          return conversation;
+        }
+      );
     },
   },
 });

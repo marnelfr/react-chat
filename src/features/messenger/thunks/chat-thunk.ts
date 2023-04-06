@@ -56,6 +56,8 @@ export const loadChats = (): ThunkAction<
   AnyAction
 > => {
   return async (dispatch) => {
+    const data = await apiClient.authGet("chats");
+    console.log(data["hydra:member"]);
     //todo: load chats from the backend and call one of the chatActions.loadChats to add them to redux
   };
 };

@@ -4,21 +4,21 @@ import { Message } from "./chat";
 export const chatApiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000/api",
+    baseUrl: "http://localhost:8080/api",
     prepareHeaders(headers: Headers) {
-      // headers.set('Autho....')
+      headers.set("Authorization", "Bearer " + localStorage.getItem("token"));
       return headers;
     },
   }),
   endpoints(builder) {
     return {
-      fetchAnswer: builder.query<Message, string>({
-        query(message) {
-          return `/message?text=${message}`;
+      fetchChat: builder.query({
+        query() {
+          return `/chats`;
         },
       }),
     };
   },
 });
 
-export const { useFetchAnswerQuery } = chatApiSlice;
+export const { useFetchChatQuery } = chatApiSlice;

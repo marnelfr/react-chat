@@ -9,7 +9,6 @@ import {
 const SettingsProfile = () => {
   const { auth } = useAuth();
   const user = JSON.parse(auth.userInfo!) as UserType;
-  console.log(user);
 
   return (
     <div className="card border-0">
