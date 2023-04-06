@@ -2,7 +2,7 @@ import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../app/store";
 import { chatActions, Message } from "../slices/chat";
 import { loadActions } from "../slices/loading";
-import apiClient from "../../../helpers/fetch";
+import apiClient from "../../../api/fetch";
 
 export interface NewChatResponse {
   id: string;

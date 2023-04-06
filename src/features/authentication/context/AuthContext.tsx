@@ -8,7 +8,7 @@ import React, {
 import { config } from "../../../constants/config";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { loadActions } from "../../messenger/slices/loading";
-import apiClient from "../../../helpers/fetch";
+import apiClient from "../../../api/fetch";
 
 interface AuthStateType {
   token: string | null;

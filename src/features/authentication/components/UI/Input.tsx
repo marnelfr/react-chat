@@ -5,12 +5,16 @@ interface InputProps {
   type?: string;
   id: string;
   className?: string;
-  placeholder: string;
+  placeholder?: string;
+  value?: string;
+  autoFocus?: boolean;
 }
-
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+}
 const Input = React.forwardRef(
   (
-    { label, className, ...rest }: InputProps,
+    { label, className, ...rest }: Props,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     return (
