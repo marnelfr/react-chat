@@ -1,16 +1,15 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
-interface ButtonProps {
-  children: ReactNode;
-  type: "button" | "submit";
-}
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 const Button = (props: ButtonProps) => {
+  const properties = { ...props };
+  delete properties.children;
   return (
     <div className="col-12">
       <button
         className="btn btn-block btn-lg btn-primary w-100"
-        type={props.type}
+        {...properties}
       >
         {props.children}
       </button>

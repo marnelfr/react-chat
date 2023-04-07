@@ -1,18 +1,12 @@
 import Input from "./UI/Input";
 import Button from "./UI/Button";
 import { Form } from "react-router-dom";
-import React, {
-  ChangeEventHandler,
-  FocusEventHandler,
-  MouseEventHandler,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 import { REGEX } from "../../../constants/regex";
 import useInput from "../../../hooks/use-input";
 
 const SignUpForm = () => {
+  const [formIsValid, setFormIsValid] = useState(false);
   const {
     value: nameVal,
     isValid: nameIsValid,
@@ -25,7 +19,38 @@ const SignUpForm = () => {
     handleChange: handleEmailChange,
     resetInput: resetEmailInput,
   } = useInput((val: string) => REGEX.email.test(val));
-  console.log(emailVal.trim() && emailIsValid);
+  const {
+    value: passwordVal,
+    isValid: passwordIsValid,
+    handleChange: handlePasswordChange,
+    resetInput: resetPasswordInput,
+  } = useInput((val: string) => REGEX.password.test(val));
+  const {
+    value: confirmPasswordVal,
+    isValid: confirmPasswordIsValid,
+    handleChange: handleConfirmPasswordChange,
+    resetInput: resetConfirmPasswordInput,
+  } = useInput((val: string) => REGEX.password.test(val));
+
+  useEffect(() => {
+    setFormIsValid(
+      !!(
+        nameIsValid &&
+        emailIsValid &&
+        passwordIsValid &&
+        confirmPasswordIsValid &&
+        passwordVal === confirmPasswordVal
+      )
+    );
+  }, [
+    confirmPasswordIsValid,
+    confirmPasswordVal,
+    emailIsValid,
+    nameIsValid,
+    passwordIsValid,
+    passwordVal,
+  ]);
+
   return (
     <Form>
       <Input
@@ -51,18 +76,40 @@ const SignUpForm = () => {
         placeholder="Email"
       />
       <Input
+        onChange={handlePasswordChange}
+        className={`${
+          passwordVal.trim() && passwordIsValid === true ? "is-valid" : ""
+        } ${
+          passwordVal.trim() && passwordIsValid === false ? "is-invalid" : ""
+        }`}
+        value={passwordVal}
         label="Password"
-        id="signup-password"
         type="password"
+        id="signup-password"
         placeholder="Password"
       />
       <Input
+        onChange={handleConfirmPasswordChange}
+        className={`${
+          confirmPasswordVal.trim() &&
+          confirmPasswordIsValid === true &&
+          passwordVal === confirmPasswordVal
+            ? "is-valid"
+            : ""
+        } ${
+          passwordVal.trim() && confirmPasswordIsValid === false
+            ? "is-invalid"
+            : ""
+        }`}
+        value={confirmPasswordVal}
         label="Confirm Password"
-        id="signup-password"
         type="password"
-        placeholder="Password"
+        id="signup-confirm-password"
+        placeholder="Confirm Password"
       />
-      <Button type="submit">Create Account</Button>
+      <Button disabled={!formIsValid} type="submit">
+        Create Account
+      </Button>
     </Form>
   );
 };
