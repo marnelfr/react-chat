@@ -10,41 +10,46 @@ import React, {
   useState,
 } from "react";
 import { REGEX } from "../../../constants/regex";
+import useInput from "../../../hooks/use-input";
 
 const SignUpForm = () => {
-  const [value, setValue] = useState("");
-  const [isValid, setIsValid] = useState<boolean | undefined>(undefined);
-
-  const handleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
-    (event) => {
-      event.preventDefault();
-      setValue((state: string) => {
-        setIsValid(REGEX.name.test(event.target.value));
-        return event.target.value;
-      });
-    },
-    []
-  );
-
-  const resetInput = useCallback(() => {
-    setValue("");
-    setIsValid(false);
-  }, []);
-
+  const {
+    value: nameVal,
+    isValid: nameIsValid,
+    handleChange: handleNameChange,
+    resetInput: resetNameInput,
+  } = useInput((val: string) => REGEX.name.test(val));
+  const {
+    value: emailVal,
+    isValid: emailIsValid,
+    handleChange: handleEmailChange,
+    resetInput: resetEmailInput,
+  } = useInput((val: string) => REGEX.email.test(val));
+  console.log(emailVal.trim() && emailIsValid);
   return (
     <Form>
       <Input
         autoFocus={true}
-        onChange={handleChange}
+        onChange={handleNameChange}
         className={`${
-          value.trim() && isValid === true ? "is-valid" : undefined
-        } ${value.trim() && isValid === false ? "is-invalid" : undefined}`}
-        value={value}
+          nameVal.trim() && nameIsValid === true ? "is-valid" : ""
+        } ${nameVal.trim() && nameIsValid === false ? "is-invalid" : ""}`}
+        value={nameVal}
         label="Name"
         id="signup-name"
         placeholder="Name"
       />
-      <Input label="Email" type="email" id="signup-email" placeholder="Email" />
+      <Input
+        onChange={handleEmailChange}
+        className={`${
+          emailVal.trim() && emailIsValid === true ? "is-valid" : ""
+        } ${emailVal.trim() && emailIsValid === false ? "is-invalid" : ""}`}
+        value={emailVal}
+        label="Email"
+        type="email"
+        id="signup-email"
+        placeholder="Email"
+      />
       <Input
         label="Password"
         id="signup-password"
