@@ -10,7 +10,6 @@ import React, {
   useState,
 } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
-import { chatActions } from "../../slices/chat";
 import { sendMessage } from "../../thunks/chat-thunk";
 
 const ChatForm = () => {
@@ -41,16 +40,20 @@ const ChatForm = () => {
 
   const handleKeyDown: KeyboardEventHandler = useCallback(
     (event) => {
-      if (event.shiftKey && event.code === "Enter") {
-        return;
-      }
+      if (event.shiftKey && event.code === "Enter") return;
+
       if (event.code === "Enter") {
         dispatch(sendMessage(messageRef.current!.value, activeChat?.id));
-        setMessage("");
       }
     },
     [dispatch, activeChat]
   );
+
+  const handleKeyUp: KeyboardEventHandler = useCallback((event) => {
+    if (!event.shiftKey && event.code === "Enter") {
+      setMessage("");
+    }
+  }, []);
 
   return (
     <div className="chat-footer pb-3 pb-lg-7 position-absolute bottom-0 start-0">
@@ -82,6 +85,7 @@ const ChatForm = () => {
                 value={message}
                 ref={messageRef}
                 onKeyDown={handleKeyDown}
+                onKeyUp={handleKeyUp}
                 style={{
                   overflow: "hidden",
                   overflowWrap: "break-word",
