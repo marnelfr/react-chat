@@ -1,19 +1,41 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../../app/store";
+
+interface Loader {
+  key: string;
+  isLoading: boolean;
+  hasError: boolean;
+}
+
+interface PayloadType {
+  key: string;
+  state: boolean;
+}
+
+const initialState: Loader[] = [];
 
 const loadSlice = createSlice({
   name: "load",
-  initialState: {
-    isLoading: false,
-    hasError: false,
-  },
+  initialState,
   reducers: {
-    set(state, action: PayloadAction<boolean>) {
-      state.isLoading = action.payload;
-      state.hasError = false;
+    set(state, action: PayloadAction<PayloadType>) {
+      const loader = state.find((load) => load.key === action.payload.key);
+      if (!loader) {
+        state.push({
+          key: action.payload.key,
+          isLoading: action.payload.state,
+          hasError: false,
+        });
+      } else {
+        loader.hasError = false;
+        loader.isLoading = action.payload.state;
+      }
     },
-    setError(state, action: PayloadAction<boolean>) {
-      state.hasError = action.payload;
-      state.isLoading = false;
+    setError(state, action: PayloadAction<PayloadType>) {
+      const loader = state.find((load) => load.key === action.payload.key);
+      if (!loader) return;
+      loader.hasError = action.payload.state;
+      loader.isLoading = false;
     },
   },
 });

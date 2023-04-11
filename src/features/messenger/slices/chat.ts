@@ -60,8 +60,8 @@ const chatSlice = createSlice({
       } else {
         const chat: ChatType = {
           id: 0,
-          summary: "New conversation",
-          title: "Discover new things with fun",
+          title: "New conversation",
+          summary: "Discover new things with fun",
           createdAt: new Date().getTime(),
         };
         const conversation: Conversation = {
@@ -155,6 +155,25 @@ const chatSlice = createSlice({
           return conversation;
         }
       );
+    },
+    setActiveChat(state, action) {
+      if (action.payload.chat.id > 0) {
+        if (state.activeChat !== null && state.activeChat.id > 0) {
+          const activeChat = state.conversations.findIndex(
+            (conv) => conv.chat.id === state.activeChat!.id
+          );
+          if (!activeChat) {
+            state.conversations = [
+              ...state.conversations,
+              {
+                chat: state.activeChat,
+                chatMessages: action.payload.data,
+              },
+            ];
+          }
+        }
+        state.activeChat = action.payload.chat;
+      }
     },
   },
 });

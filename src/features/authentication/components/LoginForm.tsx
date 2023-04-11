@@ -3,11 +3,17 @@ import Button from "./UI/Button";
 import { FormEventHandler, useCallback, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import Spinner from "../../../components/UI/Spinner";
-import { useAppSelector } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 const LoginForm = () => {
   const { login } = useAuth();
-  const load = useAppSelector((state) => state.load);
+  let load = useAppSelector((state) =>
+    state.load.find((load) => load.key === "login")
+  );
+  if (!load) {
+    load = { isLoading: false, hasError: false, key: "login" };
+  }
+
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 

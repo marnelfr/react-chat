@@ -12,13 +12,18 @@ export const chatApiSlice = createApi({
   }),
   endpoints(builder) {
     return {
-      fetchChat: builder.query({
+      fetchChats: builder.query({
         query() {
           return `/chats`;
+        },
+      }),
+      fetchMessages: builder.query({
+        query(chartId) {
+          return "/chats/" + chartId;
         },
       }),
     };
   },
 });
 
-export const { useFetchChatQuery } = chatApiSlice;
+export const { useFetchChatsQuery, useFetchMessagesQuery } = chatApiSlice;

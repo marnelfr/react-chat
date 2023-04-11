@@ -21,7 +21,7 @@ export const sendMessage = (
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     dispatch(chatActions.send(text));
-    dispatch(loadActions.set(true));
+    dispatch(loadActions.set({ key: "send-message", state: true }));
     const responseData = await apiClient.authPost(chat ? "message" : "chat", {
       text,
       chat,
@@ -35,7 +35,7 @@ export const sendMessage = (
         message: notEmptyLines,
       };
       dispatch(chatActions.received(data));
-      dispatch(loadActions.set(false));
+      dispatch(loadActions.set({ key: "send-message", state: false }));
     } else {
       const data = {
         ...responseData,
@@ -44,7 +44,7 @@ export const sendMessage = (
       };
 
       dispatch(chatActions.newChat(data));
-      dispatch(loadActions.set(false));
+      dispatch(loadActions.set({ key: "send-message", state: false }));
     }
   };
 };

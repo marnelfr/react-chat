@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SidebarItem from "../SidebarItem";
 import ChatPlaceholder from "../../UI/Placeholder/Chat";
 import ChatItem from "./ChatItem";
 import { useAppDispatch, useAppSelector } from "../../../../../app/hooks";
-import { useFetchChatQuery } from "../../../slices/chat-api";
+import { useFetchChatsQuery } from "../../../slices/chat-api";
 import { chatActions, ChatType } from "../../../slices/chat";
 
 type ChatsProps = {
@@ -13,7 +13,7 @@ type ChatsProps = {
 const Chat: React.FC<ChatsProps> = ({ isActive }) => {
   const chat = useAppSelector((state) => state.chat);
   const dispatch = useAppDispatch();
-  const { isLoading, isSuccess, data = [] } = useFetchChatQuery("");
+  const { isLoading, isSuccess, data = [] } = useFetchChatsQuery("");
 
   useEffect(() => {
     if (isSuccess) {

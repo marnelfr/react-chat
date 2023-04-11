@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }: ProviderProps) => {
 
   const login = async (username: string, password: string) => {
     try {
-      dispatch(loadActions.set(true));
+      dispatch(loadActions.set({ key: "login", state: true }));
       const data: AuthResponseType = await apiClient.post("login", {
         username,
         password,
@@ -104,10 +104,10 @@ export const AuthProvider = ({ children }: ProviderProps) => {
         };
       });
 
-      dispatch(loadActions.set(false));
+      dispatch(loadActions.set({ key: "login", state: false }));
       setIsAuthenticated(true);
     } catch (e) {
-      dispatch(loadActions.setError(true));
+      dispatch(loadActions.setError({ key: "login", state: true }));
     }
   };
 

@@ -11,7 +11,13 @@ interface ContentProps {
 }
 
 const Content = ({ messages }: ContentProps) => {
-  const isLoading = useAppSelector((state) => state.load.isLoading);
+  let load = useAppSelector((state) =>
+    state.load.find((load) => load.key === "send-message")
+  );
+  if (!load) {
+    load = { isLoading: false, hasError: false, key: "send-message" };
+  }
+
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -35,7 +41,7 @@ const Content = ({ messages }: ContentProps) => {
 
           <Divider>Friday, Sep 20</Divider>
 
-          {isLoading && <Typing />}
+          {load.isLoading && <Typing />}
         </div>
       </div>
     </div>
