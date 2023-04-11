@@ -1,14 +1,26 @@
-import React, { useContext } from "react";
+import React, { MouseEventHandler, useCallback, useContext } from "react";
 import ImageSvg from "../../UI/Svg/Image";
 import LogoutSvg from "../../UI/Svg/Logout";
 import {
   useAuth,
   UserType,
 } from "../../../../authentication/context/AuthContext";
+import { modalActions } from "../../../../../redux/slices/modal";
+import { useAppDispatch } from "../../../../../app/hooks";
 
 const SettingsProfile = () => {
-  const { auth } = useAuth();
+  const { auth, logout } = useAuth();
   const user = JSON.parse(auth.userInfo!) as UserType;
+  const dispatch = useAppDispatch();
+
+  const handleLogout: MouseEventHandler = useCallback(
+    (event) => {
+      event.preventDefault();
+      logout();
+      dispatch(modalActions.hide());
+    },
+    [dispatch, logout]
+  );
 
   return (
     <div className="card border-0">
@@ -37,11 +49,11 @@ const SettingsProfile = () => {
             <p>{user.email}</p>
           </div>
           <div className="col-auto">
-            <a href="#" className="text-muted">
+            <div role="button" onClick={handleLogout} className="text-muted">
               <div className="icon">
                 <LogoutSvg />
               </div>
-            </a>
+            </div>
           </div>
         </div>
       </div>
