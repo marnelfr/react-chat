@@ -13,7 +13,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(ROUTES.dashboard);
+      navigate(ROUTES.root);
     } else {
       setChecked(true);
     }

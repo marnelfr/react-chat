@@ -1,5 +1,14 @@
 import SendSvg from "../UI/Svg/Send";
-import React, { FormEventHandler, useCallback, useEffect, useRef } from "react";
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  FormEventHandler,
+  KeyboardEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { chatActions } from "../../slices/chat";
 import { sendMessage } from "../../thunks/chat-thunk";
@@ -8,15 +17,39 @@ const ChatForm = () => {
   const dispatch = useAppDispatch();
   const activeChat = useAppSelector((state) => state.chat.activeChat);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    messageRef.current!.focus();
+  }, []);
 
   const handleSubmit: FormEventHandler = useCallback(
     (event) => {
       event.preventDefault();
       dispatch(sendMessage(messageRef.current!.value, activeChat?.id));
-      messageRef.current!.value = "";
-      messageRef.current!.focus();
     },
-    [dispatch, messageRef, activeChat]
+    [dispatch, activeChat]
+  );
+
+  const handleChange: ChangeEventHandler = useCallback(
+    (event: ChangeEvent<HTMLTextAreaElement>) => {
+      setMessage(event.target.value);
+    },
+    []
+  );
+
+  const handleKeyDown: KeyboardEventHandler = useCallback(
+    (event) => {
+      if (event.shiftKey && event.code === "Enter") {
+        return;
+      }
+      if (event.code === "Enter") {
+        dispatch(sendMessage(messageRef.current!.value, activeChat?.id));
+        setMessage("");
+      }
+    },
+    [dispatch, activeChat]
   );
 
   return (
@@ -31,6 +64,7 @@ const ChatForm = () => {
 
       {/* Chat: Form */}
       <form
+        ref={formRef}
         onSubmit={handleSubmit}
         className="chat-form rounded-pill bg-dark"
         data-emoji-form=""
@@ -44,7 +78,10 @@ const ChatForm = () => {
                 rows={1}
                 data-emoji-input=""
                 data-autosize="true"
+                onChange={handleChange}
+                value={message}
                 ref={messageRef}
+                onKeyDown={handleKeyDown}
                 style={{
                   overflow: "hidden",
                   overflowWrap: "break-word",

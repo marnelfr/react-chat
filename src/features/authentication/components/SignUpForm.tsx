@@ -1,6 +1,5 @@
 import Input from "./UI/Input";
 import Button from "./UI/Button";
-import { Form } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { REGEX } from "../../../constants/regex";
 import useInput from "../../../hooks/use-input";
@@ -52,7 +51,7 @@ const SignUpForm = () => {
   ]);
 
   return (
-    <Form>
+    <form>
       <Input
         autoFocus={true}
         onChange={handleNameChange}
@@ -110,7 +109,7 @@ const SignUpForm = () => {
       <Button disabled={!formIsValid} type="submit">
         Create Account
       </Button>
-    </Form>
+    </form>
   );
 };
 
