@@ -5,18 +5,14 @@ import Typing from "../UI/Conversation/Typing";
 import React, { useEffect, useRef } from "react";
 import { ChatMessage } from "../../slices/chat";
 import { useAppSelector } from "../../../../app/hooks";
+import { getLoader } from "../../slices/loading";
 
 interface ContentProps {
   messages: ChatMessage[];
 }
 
 const Content = ({ messages }: ContentProps) => {
-  let load = useAppSelector((state) =>
-    state.load.find((load) => load.key === "send-message")
-  );
-  if (!load) {
-    load = { isLoading: false, hasError: false, key: "send-message" };
-  }
+  const load = useAppSelector(getLoader("send-message"));
 
   const contentRef = useRef<HTMLDivElement>(null);
 

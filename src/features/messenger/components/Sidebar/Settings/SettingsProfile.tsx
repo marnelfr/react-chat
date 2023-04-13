@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useCallback, useContext } from "react";
+import React, { MouseEventHandler, useCallback } from "react";
 import ImageSvg from "../../UI/Svg/Image";
 import LogoutSvg from "../../UI/Svg/Logout";
 import {

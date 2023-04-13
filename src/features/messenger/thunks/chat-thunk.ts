@@ -1,6 +1,6 @@
 import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../app/store";
-import { chatActions, Message } from "../slices/chat";
+import { chatActions, ChatType, Message } from "../slices/chat";
 import { loadActions } from "../slices/loading";
 import apiClient from "../../../api/fetch";
 
@@ -49,6 +49,7 @@ export const sendMessage = (
   };
 };
 
+// j'ai finalement utilisé chat-api.js au lieu de ceci
 export const loadChats = (): ThunkAction<
   void,
   RootState,
@@ -59,5 +60,14 @@ export const loadChats = (): ThunkAction<
     const data = await apiClient.authGet("chats");
     console.log(data["hydra:member"]);
     //todo: load chats from the backend and call one of the chatActions.loadChats to add them to redux
+  };
+};
+
+export const setActiveChat = (
+  chat: ChatType
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return async (dispatch) => {
+    const data = await apiClient.authGet("chats/" + chat.id);
+    console.log(data["hydra:member"]);
   };
 };

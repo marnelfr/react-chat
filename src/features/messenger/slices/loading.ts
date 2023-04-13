@@ -40,6 +40,14 @@ const loadSlice = createSlice({
   },
 });
 
+export const getLoader = (key: string) => {
+  return (state: RootState) => {
+    const load = state.load.find((load) => load.key === key);
+    if (load) return load;
+    return { isLoading: false, hasError: false, key };
+  };
+};
+
 export const loadActions = loadSlice.actions;
 
 const loadReducer = loadSlice.reducer;

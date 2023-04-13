@@ -1,27 +1,24 @@
 import ChatButton from "./ChatButton";
-import React, { MouseEventHandler, useCallback } from "react";
-import { chatActions, ChatType } from "../../../slices/chat";
-import { useAppDispatch, useAppSelector } from "../../../../../app/hooks";
-import { useFetchMessagesQuery } from "../../../slices/chat-api";
+import React, { MouseEventHandler, useCallback, useState } from "react";
+import { ChatType } from "../../../slices/chat";
+import { useAppDispatch } from "../../../../../app/hooks";
+import { setActiveChat } from "../../../thunks/chat-thunk";
 
 type Props = {
   chat: ChatType;
 };
 
 const ChatItem = ({ chat }: Props) => {
-  const activeConversation = useAppSelector((state) => state.chat);
   const dispatch = useAppDispatch();
-  const { setActiveChat } = chatActions;
-  const { isLoading, isSuccess, data } = useFetchMessagesQuery(chat.id);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClick: MouseEventHandler = useCallback(
     (event) => {
       event.preventDefault();
-      if (isSuccess) {
-        dispatch(setActiveChat({ chat, data }));
-      }
+      setIsLoading(true);
+      dispatch(setActiveChat(chat));
     },
-    [dispatch, chat, setActiveChat, isSuccess, data]
+    [dispatch, chat]
   );
 
   return (
