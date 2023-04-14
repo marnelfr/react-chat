@@ -32,28 +32,22 @@ class ApiClient {
   }
 
   async tokenRefresher() {
-    if (new Date().getTime() < this.expirationDate.getTime()) {
+    try {
+      const data = await this.post(
+        "token/refresh",
+        { refresh_token: this.refreshToken },
+        false
+      );
+
+      console.log("in tokenRefresher", data);
+
+      this.token = data.token;
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userInfo", JSON.stringify(data.user));
+    } catch (e) {
       this.clearAuthInfo();
-      console.log("in fetch error");
-      // todo: is there a better way to do this? can I redirect to the login page here?
-      window.location.href = "/";
-      throw new Response(JSON.stringify({ message: "Unauthorized..." }), {
-        status: 401,
-      });
+      window.location.href = "/login";
     }
-    console.log(this.refreshToken, this.token);
-
-    const data = await this.post(
-      "token/refresh",
-      { refresh_token: this.refreshToken },
-      false
-    );
-    console.log("in tokenRefresher", data);
-
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("expiresAt", String(data.refresh_expiration));
-    localStorage.setItem("refreshToken", data.refresh_token);
-    localStorage.setItem("userInfo", JSON.stringify(data.user));
   }
 
   clearAuthInfo = () => {
@@ -104,11 +98,14 @@ class ApiClient {
       headers,
       body: data ? JSON.stringify(data) : undefined,
     };
-    if (url === "login" || url === "token/invalidate") {
+    if (
+      url === "login" ||
+      url === "token/invalidate" ||
+      url === "token/refresh"
+    ) {
       init.credentials = "include";
     }
     const response = await fetch(this.config.BACKEND_URL + url, init);
-
     if (
       response.status === 401 &&
       response.statusText === "Unauthorized" &&
@@ -119,7 +116,6 @@ class ApiClient {
     }
 
     if (!response.ok) {
-      console.log("kko", response, retryOn401, authRequest);
       throw new Response("Error while making request", { status: 500 });
     }
 

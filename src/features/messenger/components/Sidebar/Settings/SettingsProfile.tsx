@@ -14,19 +14,6 @@ const SettingsProfile = () => {
   const user = JSON.parse(auth.userInfo!) as UserType;
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const refresh = async () => {
-      const instance = axios.create({
-        baseURL: "http://localhost:8080/api",
-      });
-      const response = await instance.get("/token/refresh", {
-        withCredentials: true,
-      });
-      console.log(response);
-    };
-    refresh();
-  }, []);
-
   const handleLogout: MouseEventHandler = useCallback(
     (event) => {
       event.preventDefault();
