@@ -184,10 +184,8 @@ const ModalProfile = () => {
 
       {/* List */}
       <ul className="list-group list-group-flush">
-        <li className="list-group-item">
-          <a onClick={handleLogout} href="#" className="text-danger">
-            Logout
-          </a>
+        <li role="button" onClick={handleLogout} className="list-group-item">
+          <span className="text-danger">Logout</span>
         </li>
       </ul>
       {/* List */}

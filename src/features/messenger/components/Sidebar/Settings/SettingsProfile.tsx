@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useCallback } from "react";
+import React, { MouseEventHandler, useCallback, useEffect } from "react";
 import ImageSvg from "../../UI/Svg/Image";
 import LogoutSvg from "../../UI/Svg/Logout";
 import {
@@ -7,11 +7,25 @@ import {
 } from "../../../../authentication/context/AuthContext";
 import { modalActions } from "../../../../../redux/slices/modal";
 import { useAppDispatch } from "../../../../../app/hooks";
+import axios from "axios";
 
 const SettingsProfile = () => {
   const { auth, logout } = useAuth();
   const user = JSON.parse(auth.userInfo!) as UserType;
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const refresh = async () => {
+      const instance = axios.create({
+        baseURL: "http://localhost:8080/api",
+      });
+      const response = await instance.get("/token/refresh", {
+        withCredentials: true,
+      });
+      console.log(response);
+    };
+    refresh();
+  }, []);
 
   const handleLogout: MouseEventHandler = useCallback(
     (event) => {

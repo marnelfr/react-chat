@@ -12,8 +12,6 @@ import apiClient from "../../../api/fetch";
 
 interface AuthStateType {
   token: string | null;
-  expiresAt: string | null;
-  refreshToken: string | null;
   userInfo?: string | null;
 }
 
@@ -38,16 +36,12 @@ export interface UserType {
 
 interface AuthResponseType {
   token: string;
-  refresh_expiration: number;
-  refresh_token: string;
   user: UserType;
 }
 
 const defaultValue: ValueType = {
   auth: {
     token: null,
-    expiresAt: null,
-    refreshToken: null,
     userInfo: null,
   },
   isAuthenticated: null,
@@ -59,15 +53,11 @@ const AuthContext = React.createContext(defaultValue);
 
 export const AuthProvider = ({ children }: ProviderProps) => {
   const token = localStorage.getItem("token");
-  const expiresAt = localStorage.getItem("expiresAt");
-  const refreshToken = localStorage.getItem("refreshToken");
   const userInfo = localStorage.getItem("userInfo");
 
   const dispatch = useAppDispatch();
   const [auth, setAuth] = useState({
     token,
-    expiresAt,
-    refreshToken,
     userInfo,
   });
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -77,7 +67,7 @@ export const AuthProvider = ({ children }: ProviderProps) => {
       if (!auth.token) {
         return false;
       }
-      return Number(auth.expiresAt) * 1000 > new Date().getTime();
+      return true;
     });
   }, []);
 
@@ -91,15 +81,11 @@ export const AuthProvider = ({ children }: ProviderProps) => {
 
       setAuth((auth: AuthStateType) => {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("expiresAt", String(data.refresh_expiration));
-        localStorage.setItem("refreshToken", data.refresh_token);
         localStorage.setItem("userInfo", JSON.stringify(data.user));
         apiClient.updateAuth();
 
         return {
           token: data.token,
-          expiresAt: String(data.refresh_expiration),
-          refreshToken: data.refresh_token,
           userInfo: JSON.stringify(data.user),
         };
       });
@@ -112,13 +98,13 @@ export const AuthProvider = ({ children }: ProviderProps) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("expiresAt");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("userInfo");
-    apiClient.updateAuth();
-    // todo: update the logout process to revoke the token in the backend
-    setIsAuthenticated(false);
+    apiClient.get("token/invalidate").finally(() => {
+      console.log("rrr");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userInfo");
+      apiClient.updateAuth();
+      setIsAuthenticated(false);
+    });
   };
 
   return (

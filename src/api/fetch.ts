@@ -99,11 +99,15 @@ class ApiClient {
       headers.Authorization = "Bearer " + this.token;
     }
 
-    const response = await fetch(this.config.BACKEND_URL + url, {
+    const init: RequestInit = {
       method,
       headers,
       body: data ? JSON.stringify(data) : undefined,
-    });
+    };
+    if (url === "login" || url === "token/invalidate") {
+      init.credentials = "include";
+    }
+    const response = await fetch(this.config.BACKEND_URL + url, init);
 
     if (
       response.status === 401 &&
