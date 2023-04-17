@@ -1,12 +1,5 @@
-import React, {
-  ReactNode,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { config } from "../../../constants/config";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
+import { useAppDispatch } from "../../../app/hooks";
 import { loadActions } from "../../messenger/slices/loading";
 import apiClient from "../../../api/fetch";
 
