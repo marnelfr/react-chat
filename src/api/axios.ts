@@ -16,7 +16,7 @@ class ApiClient {
     });
   }
 
-  post = async (url: string, data: Object) => {
+  post = async (url: string, data?: Object) => {
     return await this.axios.post(url, JSON.stringify(data), {
       headers: {
         "Content-Type": "application/json",
