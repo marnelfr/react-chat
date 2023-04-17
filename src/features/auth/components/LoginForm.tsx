@@ -1,6 +1,5 @@
 import { FormEventHandler, useCallback, useRef, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import axios from "../../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import apiClient from "../../../api/axios";
 
