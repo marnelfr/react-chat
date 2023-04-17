@@ -5,17 +5,18 @@ import DashboardPage from "./pages/Dashboard";
 import AuthLayout from "./pages/Layout/Auth";
 import UsersPage from "./pages/Users";
 import PersistAuthLayout from "./pages/Layout/PersistAuth";
+import { ROUTES } from "./constants/routes";
 
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<RootLayout />}>
-        <Route path="login" element={<LoginPage />} />
+      <Route path={ROUTES.root} element={<RootLayout />}>
+        <Route path={ROUTES.login} element={<LoginPage />} />
 
         <Route element={<PersistAuthLayout />}>
           <Route element={<AuthLayout />}>
-            <Route path="/" element={<DashboardPage />} />
-            <Route path="/users" element={<UsersPage />} />
+            <Route path={ROUTES.root} element={<DashboardPage />} />
+            <Route path={ROUTES.users} element={<UsersPage />} />
           </Route>
         </Route>
       </Route>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { config } from "../constants/config";
 
 class ApiClient {
   axios;
@@ -6,10 +7,10 @@ class ApiClient {
 
   constructor() {
     this.axios = axios.create({
-      baseURL: "http://localhost:8080/api/",
+      baseURL: config.BACKEND_URL,
     });
     this.private = axios.create({
-      baseURL: "http://localhost:8080/api/",
+      baseURL: config.BACKEND_URL,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     });
