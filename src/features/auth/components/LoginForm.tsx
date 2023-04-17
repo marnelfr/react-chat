@@ -2,6 +2,7 @@ import { FormEventHandler, useCallback, useRef, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import axios from "../../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import apiClient from "../../../api/axios";
 
 const LoginForm = () => {
   const { setAuth } = useAuth();
@@ -18,17 +19,10 @@ const LoginForm = () => {
     const password = passwordRef.current?.value;
     if (username?.trim() && password?.trim()) {
       try {
-        const response = await axios.post(
-          "login",
-          JSON.stringify({ username, password }),
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        );
-
+        const response = await apiClient.post("login", {
+          username,
+          password,
+        });
         const token = response?.data?.token;
         const user = response?.data?.user;
         setAuth({ token, user });
