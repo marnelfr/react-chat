@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 const LoginForm = () => {
+  const { setAuth } = useAuth();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState("");
