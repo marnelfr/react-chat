@@ -1,12 +1,16 @@
 import { FormEventHandler, useCallback, useRef, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import axios from "../../../api/axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const { setAuth } = useAuth();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const handleSubmit: FormEventHandler = useCallback(async (event) => {
     event.preventDefault();
@@ -28,7 +32,7 @@ const LoginForm = () => {
         const token = response?.data?.token;
         const user = response?.data?.user;
         setAuth({ token, user });
-        console.log("success");
+        navigate(from, { replace: true });
       } catch (e: any) {
         if (!e?.response) {
           setErrorMessage("No Server Response");
