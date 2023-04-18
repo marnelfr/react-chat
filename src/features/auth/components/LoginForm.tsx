@@ -1,16 +1,20 @@
 import { FormEventHandler, useCallback, useRef, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
-import apiClient from "../../../api/axios";
+import { ROUTES } from "../../../constants/routes";
+import Input from "./UI/Input";
+import Button from "./UI/Button";
+import Spinner from "../../../components/UI/Spinner";
 
 const LoginForm = () => {
-  const { setAuth } = useAuth();
+  const { login } = useAuth();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || ROUTES.root;
 
   const handleSubmit: FormEventHandler = useCallback(async (event) => {
     event.preventDefault();
@@ -18,13 +22,9 @@ const LoginForm = () => {
     const password = passwordRef.current?.value;
     if (username?.trim() && password?.trim()) {
       try {
-        const response = await apiClient.post("login", {
-          username,
-          password,
-        });
-        const token = response?.data?.token;
-        const user = response?.data?.user;
-        setAuth({ token, user });
+        setIsLoading(true);
+        await login(username, password);
+        setIsLoading(false);
         navigate(from, { replace: true });
       } catch (e: any) {
         if (!e?.response) {
@@ -40,18 +40,25 @@ const LoginForm = () => {
 
   return (
     <section>
-      {errorMessage && <p>{errorMessage}</p>}
-      <h1>Sign In</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input autoFocus ref={emailRef} type="email" id="email" />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input ref={passwordRef} type="password" id="password" />
-        </div>
-        <button type="submit">Login</button>
+        {errorMessage && (
+          <p className="text-center text-danger mb-7">{errorMessage}</p>
+        )}
+        <Input
+          ref={emailRef}
+          label="Email"
+          type="email"
+          id="login-email"
+          placeholder="Email"
+        />
+        <Input
+          ref={passwordRef}
+          label="Password"
+          id="login-password"
+          type="password"
+          placeholder="Password"
+        />
+        <Button type="submit">{isLoading ? <Spinner /> : "Sign In"}</Button>
       </form>
     </section>
   );

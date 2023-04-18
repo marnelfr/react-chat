@@ -1,5 +1,9 @@
 export const ROUTES = {
   root: "/",
-  login: "login",
-  users: "users",
+  login: "/login",
+  register: "/register",
+  resetPassword: "/reset-password",
+  refreshToken: "/token/refresh",
+  logout: "token/invalidate",
+  chats: "/chats",
 };

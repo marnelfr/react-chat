@@ -1,14 +1,18 @@
 import { useAuth } from "./useAuth";
 import apiClient from "../../../api/axios";
+import { ROUTES } from "../../../constants/routes";
 
 const useRefreshToken = () => {
-  const { setAuth } = useAuth();
+  const { refresh } = useAuth();
   return async () => {
-    const response = await apiClient.axios.get("/token/refresh", {
+    const response = await apiClient.axios.get(ROUTES.refreshToken, {
       withCredentials: true,
     });
-    setAuth((state: any) => ({ ...state, token: response?.data?.token }));
-    return response?.data?.token;
+    console.log(response);
+    const token = response?.data?.token;
+    const user = response?.data?.user;
+    token && refresh(token, user);
+    return token;
   };
 };
 

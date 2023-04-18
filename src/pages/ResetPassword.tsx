@@ -1,0 +1,25 @@
+import { Link } from "react-router-dom";
+import { ROUTES } from "../constants/routes";
+import AuthCard from "../features/auth/components/UI/AuthCard";
+import AuthFormCard from "../features/auth/components/UI/AuthFormCard";
+import ResetPasswordForm from "../features/auth/components/ResetPasswordForm";
+
+const ResetPasswordPage = () => {
+  return (
+    <AuthCard>
+      <AuthFormCard
+        title="Password Reset"
+        text="Enter your email to reset password"
+      >
+        <ResetPasswordForm />
+      </AuthFormCard>
+      <div className="text-center mt-8">
+        <p>
+          Remember your password? <Link to={ROUTES.login}>Sign in</Link>
+        </p>
+      </div>
+    </AuthCard>
+  );
+};
+
+export default ResetPasswordPage;
