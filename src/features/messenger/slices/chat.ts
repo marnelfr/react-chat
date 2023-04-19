@@ -173,6 +173,43 @@ const chatSlice = createSlice({
           }
         }
         state.activeChat = action.payload.chat;
+
+        const conversation = state.conversations.find(
+          (conv) =>
+            state.activeChat !== null && conv.chat.id === state.activeChat.id
+        );
+
+        if (!conversation) {
+          return;
+        }
+
+        action.payload.data.map((question: any) => {
+          const qMessage: Message = {
+            createdAt: question.createdAt,
+            id: question["@id"],
+            message: question.text
+              .split(/\r\n|\r|\n/)
+              .map((line: string) => line.trim()),
+          };
+          const aMessage: Message = {
+            createdAt: question.answer.createdAt,
+            id: question.answer["@id"],
+            message: question.answer.text
+              .split(/\r\n|\r|\n/)
+              .map((line: string) => line.trim()),
+            finishReason: question.answer?.finishReason,
+          };
+          const questionMessage: ChatMessage = {
+            message: qMessage,
+            type: "out",
+          };
+          const answerMessage: ChatMessage = {
+            message: aMessage,
+            type: "in",
+          };
+          conversation.chatMessages.push(questionMessage);
+          conversation.chatMessages.push(answerMessage);
+        });
       }
     },
   },

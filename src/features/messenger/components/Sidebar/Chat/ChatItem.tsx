@@ -1,8 +1,8 @@
 import ChatButton from "./ChatButton";
 import React, { MouseEventHandler, useCallback, useState } from "react";
-import { ChatType } from "../../../slices/chat";
+import { chatActions, ChatType } from "../../../slices/chat";
 import { useAppDispatch } from "../../../../../app/hooks";
-import { setActiveChat } from "../../../thunks/chat-thunk";
+import usePrivateAxios from "../../../../auth/hooks/usePrivateAxios";
 
 type Props = {
   chat: ChatType;
@@ -10,13 +10,20 @@ type Props = {
 
 const ChatItem = ({ chat }: Props) => {
   const dispatch = useAppDispatch();
+  const axios = usePrivateAxios();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick: MouseEventHandler = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
+      if (chat.id === 0) return;
+
       setIsLoading(true);
-      dispatch(setActiveChat(chat));
+      const data: any = await axios.get("chats/" + chat.id);
+      console.log(data?.data?.questions);
+      dispatch(
+        chatActions.setActiveChat({ chat, data: data?.data?.questions || [] })
+      );
     },
     [dispatch, chat]
   );
