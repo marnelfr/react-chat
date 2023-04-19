@@ -1,8 +1,7 @@
 import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../app/store";
-import { chatActions, ChatType, Message } from "../slices/chat";
+import { chatActions, Message } from "../slices/chat";
 import { loadActions } from "../slices/loading";
-import apiClient from "../../../api/axios";
 
 export interface NewChatResponse {
   id: string;
@@ -41,14 +40,5 @@ export const sendMessage = (
       dispatch(chatActions.newChat(data));
       dispatch(loadActions.set({ key: "send-message", state: false }));
     }
-  };
-};
-
-export const setActiveChat = (
-  chat: ChatType
-): ThunkAction<void, RootState, unknown, AnyAction> => {
-  return async (dispatch) => {
-    // const data = await apiClient.authGet("chats/" + chat.id);
-    // console.log(data["hydra:member"]);
   };
 };
