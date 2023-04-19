@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../../../app/hooks";
 import { chatActions, ChatType } from "../../../slices/chat";
 import usePrivateAxios from "../../../../auth/hooks/usePrivateAxios";
 import { ROUTES } from "../../../../../constants/routes";
+import { selectSearchKey } from "../../../slices/search";
 
 type ChatsProps = {
   isActive?: boolean;
@@ -16,6 +17,7 @@ const Chat: React.FC<ChatsProps> = ({ isActive }) => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const axios = usePrivateAxios();
+  const searchKey = useAppSelector(selectSearchKey).toLowerCase();
 
   useEffect(() => {
     const loadCharts = async () => {
@@ -43,7 +45,10 @@ const Chat: React.FC<ChatsProps> = ({ isActive }) => {
   }
 
   const oldConversations = chat.conversations.filter(
-    (conv) => chat.activeChat === null || conv.chat.id !== chat.activeChat.id
+    (conv) =>
+      (chat.activeChat === null || conv.chat.id !== chat.activeChat.id) &&
+      (conv.chat.title.toLowerCase().includes(searchKey) ||
+        conv.chat.summary.toLowerCase().includes(searchKey))
   );
   const oldChatItems = oldConversations.map((conv) => {
     return <ChatItem key={conv.chat.createdAt} chat={conv.chat} />;
