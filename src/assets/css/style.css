@@ -201,10 +201,7 @@
     visibility: hidden
 }
 
-.clockify-integration-popup {
-/*@import '~@fontsource/roboto/400.css';*/
-/*@import '~@fontsource/roboto/700.css';*/
-}
+.clockify-integration-popup {}
 
 .clockify-integration-popup .ant-switch {
     margin: 0;
