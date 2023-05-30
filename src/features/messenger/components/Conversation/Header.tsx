@@ -7,7 +7,7 @@ type HeaderProps = {
 };
 
 const Header = ({ onShowChatList }: HeaderProps) => {
-  const ShowChatListHandler: MouseEventHandler = useCallback(
+  const handleShowChatList: MouseEventHandler = useCallback(
     (event) => {
       event.preventDefault();
       onShowChatList();
@@ -20,14 +20,13 @@ const Header = ({ onShowChatList }: HeaderProps) => {
       <div className="row align-items-center">
         {/* Mobile: show chat list */}
         <div className="col-2 d-xl-none">
-          <a
-            onClick={ShowChatListHandler}
+          <span
+            onClick={handleShowChatList}
             className="icon icon-lg text-muted"
-            href="#"
             data-toggle-chat=""
           >
             <ChevronLeft />
-          </a>
+          </span>
         </div>
         {/* Mobile: show chat list */}
 
@@ -38,9 +37,9 @@ const Header = ({ onShowChatList }: HeaderProps) => {
             <div className="col-xl-6 d-none d-xl-block">
               <div className="row align-items-center justify-content-end gx-6">
                 <div className="col-auto">
-                  <a href="#" className="icon icon-lg text-muted">
+                  <span className="icon icon-lg text-muted">
                     <RefreshSvg />
-                  </a>
+                  </span>
                 </div>
               </div>
             </div>
@@ -52,16 +51,11 @@ const Header = ({ onShowChatList }: HeaderProps) => {
         {/* Mobile: refresher */}
         <div className="col-2 d-xl-none text-end">
           <div className="dropdown">
-            <a
-              className="text-muted"
-              href="#"
-              role="button"
-              aria-expanded="false"
-            >
-              <div className="icon icon-lg">
+            <span className="text-muted" role="button" aria-expanded="false">
+              <span className="icon icon-lg">
                 <RefreshSvg />
-              </div>
-            </a>
+              </span>
+            </span>
           </div>
         </div>
         {/* Mobile: refresher */}

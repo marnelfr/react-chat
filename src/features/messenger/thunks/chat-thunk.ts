@@ -20,7 +20,7 @@ export const sendMessage = (
   chat?: number
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-    console.log(responseData);
+    console.log(responseData, "nnel");
     if (chat) {
       const lines = responseData.message.split("\n");
       const notEmptyLines = lines.filter((line: string) => line.trim() !== "");
@@ -40,5 +40,17 @@ export const sendMessage = (
       dispatch(chatActions.newChat(data));
       dispatch(loadActions.set({ key: "send-message", state: false }));
     }
+  };
+};
+
+export const startNewChat = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {
+  return (dispatch) => {
+    dispatch(chatActions.incrementLiveId());
+    dispatch(chatActions.startNewChat());
   };
 };

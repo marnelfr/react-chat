@@ -28,11 +28,15 @@ const ChatForm = () => {
     messageRef.current!.focus();
   }, []);
 
+  useEffect(() => {
+    messageRef.current!.focus();
+  }, [activeChat]);
+
   const handleSubmit: FormEventHandler = useCallback(
     async (event) => {
       event.preventDefault();
       const text = messageRef.current!.value;
-      const chat = activeChat?.id;
+      const chat = typeof activeChat?.id === "string" ? 0 : activeChat?.id;
 
       dispatch(chatActions.send(text));
       dispatch(loadActions.set({ key: "send-message", state: true }));
@@ -58,7 +62,7 @@ const ChatForm = () => {
       if (event.shiftKey && event.code === "Enter") return;
 
       if (event.code === "Enter") {
-        const chat = activeChat?.id;
+        const chat = typeof activeChat?.id === "string" ? 0 : activeChat?.id;
         const text = messageRef.current!.value;
 
         dispatch(chatActions.send(text));

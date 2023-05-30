@@ -1,8 +1,11 @@
 import React from "react";
 
-const Spinner = () => {
+const Spinner = ({ xl }: { xl?: boolean }) => {
+  let classes = "spinner-border";
+  classes += xl ? "" : " spinner-border-sm";
+
   return (
-    <div className="spinner-border spinner-border-sm" role="status">
+    <div className={classes} role="status">
       <span className="visually-hidden">Loading...</span>
     </div>
   );

@@ -20,7 +20,7 @@ const PersistAuthLayout = () => {
       }
     };
     !auth?.token ? verifyRefreshToken() : setIsLoading(false);
-  });
+  }, []);
 
   return isLoading ? <Loading /> : <Outlet />;
 };

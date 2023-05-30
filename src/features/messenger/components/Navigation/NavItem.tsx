@@ -2,6 +2,8 @@ import MessageSvg from "../UI/Svg/Message";
 import React, { MouseEventHandler, ReactNode, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { sidebarActions } from "../../slices/sidebar";
+import { chatActions } from "../../slices/chat";
+import { startNewChat } from "../../thunks/chat-thunk";
 
 type NavItemProps = {
   children: ReactNode;
@@ -32,11 +34,10 @@ const NavItem: React.FC<NavItemProps> = ({
   const clickHandler: MouseEventHandler = useCallback(
     (event) => {
       event.preventDefault();
-      dispatch(sidebarActions.setActiveTab(tab));
-
       if (newChat) {
-        // todo: add a new chat
+        dispatch(startNewChat());
       }
+      dispatch(sidebarActions.setActiveTab(tab));
     },
     [dispatch, newChat]
   );

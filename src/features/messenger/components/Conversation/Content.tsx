@@ -18,16 +18,19 @@ const Content = ({ messages }: ContentProps) => {
 
   useEffect(() => {
     contentRef.current!.scrollTo(0, contentRef.current!.scrollHeight);
+  }, []);
+  const conversation = messages.map((message) => {
+    return (
+      <Message
+        hour="08:45 PM"
+        key={message.message?.id || message.message.createdAt}
+        out={message.type === "out"}
+      >
+        <MessageContent message={message.message.message} />
+      </Message>
+    );
   });
-  const conversation = messages.map((message) => (
-    <Message
-      hour="08:45 PM"
-      key={message.message.createdAt}
-      out={message.type === "out"}
-    >
-      <MessageContent message={message.message.message} />
-    </Message>
-  ));
+
   return (
     <div ref={contentRef} className="chat-body hide-scrollbar flex-1 h-100">
       <div className="chat-body-inner" style={{ paddingBottom: "87px" }}>

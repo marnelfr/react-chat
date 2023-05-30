@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NewChatResponse } from "../thunks/chat-thunk";
+import { RootState } from "../../../app/store";
 
 export interface Message {
   id?: string;
@@ -9,7 +10,7 @@ export interface Message {
 }
 
 export interface ChatType {
-  id: number;
+  id: string | number;
   title: string;
   summary: string;
   createdAt: number;
@@ -27,11 +28,13 @@ interface Conversation {
 
 interface StateType {
   activeChat: ChatType | null;
+  liveId: string; //id used for chat created that haven't been given an Id on the backend yet
   conversations: Conversation[];
 }
 
 const initialState: StateType = {
   activeChat: null,
+  liveId: "live-id-0",
   conversations: [],
 };
 
@@ -124,20 +127,6 @@ const chatSlice = createSlice({
       conversation.chat.summary = data.summary;
 
       conversation.chatMessages.push(chatMessage);
-
-      // {
-      // createdAt: data.createdAt,
-      // id: data.chatId,
-      // summary: data.summary,
-      // title: data.title,
-      // };
-      // const conversation: Conversation = {
-      //   chat,
-      //   chatMessages: [chatMessage],
-      // };
-
-      // state.activeChat = chat;
-      // state.conversations.push(conversation);
     },
     loadChats(state, action) {
       state.conversations = action.payload["hydra:member"].map(
@@ -212,10 +201,31 @@ const chatSlice = createSlice({
         });
       }
     },
+    startNewChat(state) {
+      const newChat: ChatType = {
+        createdAt: new Date().getTime(),
+        id: state.liveId,
+        summary: "Discover new things with fun",
+        title: "New conversation",
+      };
+      const conversation: Conversation = {
+        chat: newChat,
+        chatMessages: [],
+      };
+      state.conversations.push(conversation);
+      state.activeChat = conversation.chat;
+    },
+    incrementLiveId(state) {
+      const strId = state.liveId.replace("live-id-", "");
+      const id = Number(strId);
+      state.liveId = "live-id-" + (id + 1);
+    },
   },
 });
 
 export const chatActions = chatSlice.actions;
+
+export const selectLiveId = (state: RootState) => state.chat.liveId;
 
 const chatReducer = chatSlice.reducer;
 export default chatReducer;

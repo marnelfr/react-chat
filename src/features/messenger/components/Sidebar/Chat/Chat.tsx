@@ -3,7 +3,7 @@ import SidebarItem from "../SidebarItem";
 import ChatPlaceholder from "../../UI/Placeholder/Chat";
 import ChatItem from "./ChatItem";
 import { useAppDispatch, useAppSelector } from "../../../../../app/hooks";
-import { chatActions, ChatType } from "../../../slices/chat";
+import { chatActions, ChatType, selectLiveId } from "../../../slices/chat";
 import usePrivateAxios from "../../../../auth/hooks/usePrivateAxios";
 import { ROUTES } from "../../../../../constants/routes";
 import { selectSearchKey } from "../../../slices/search";
@@ -14,6 +14,7 @@ type ChatsProps = {
 
 const Chat: React.FC<ChatsProps> = ({ isActive }) => {
   const chat = useAppSelector((state) => state.chat);
+  const liveId = useAppSelector(selectLiveId);
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const axios = usePrivateAxios();
@@ -34,8 +35,8 @@ const Chat: React.FC<ChatsProps> = ({ isActive }) => {
   );
   const activeChat = activeConversation?.chat;
   const fakeChat: ChatType = {
-    createdAt: 0,
-    id: 0,
+    createdAt: new Date().getTime(),
+    id: liveId,
     summary: "Discover new things with fun",
     title: "New conversation",
   };
@@ -72,13 +73,11 @@ const Chat: React.FC<ChatsProps> = ({ isActive }) => {
 
       {!isLoading && (
         <>
-          {/*Current chart / Active chart*/}
           {activeChatItem}
-          {/*Current chart / Active chart*/}
 
           {/* List of old charts of the current user*/}
           <div className="card-list mt-8">
-            {oldConversations.length && (
+            {!!oldConversations.length && (
               <div className="d-flex align-items-center my-4 px-6">
                 <small className="text-muted me-auto">Old Chats</small>
               </div>
@@ -86,7 +85,6 @@ const Chat: React.FC<ChatsProps> = ({ isActive }) => {
 
             {oldChatItems}
           </div>
-          {/* List of old charts of the current user*/}
         </>
       )}
     </SidebarItem>
