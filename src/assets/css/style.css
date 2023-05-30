@@ -201,7 +201,12 @@
     visibility: hidden
 }
 
-.clockify-integration-popup {}
+.clockify-integration-popup {
+
+}
+.nel{
+    color: red;
+}
 
 .clockify-integration-popup .ant-switch {
     margin: 0;
