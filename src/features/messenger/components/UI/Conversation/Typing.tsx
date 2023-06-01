@@ -21,7 +21,7 @@ const Typing = () => {
           <div className="message-content">
             <div className="message-text">
               <p>
-                Loading
+                Thinking
                 <span className="typing-dots">
                   <span>.</span>
                   <span>.</span>

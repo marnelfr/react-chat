@@ -7,9 +7,7 @@ import SignUpForm from "../features/auth/components/SignUpForm";
 const SignupPage = () => {
   return (
     <AuthCard>
-      <AuthFormCard title="Sign Up" text="Follow the easy steps">
-        <SignUpForm />
-      </AuthFormCard>
+      <SignUpForm />
 
       <div className="text-center mt-8">
         <p>

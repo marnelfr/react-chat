@@ -1,4 +1,10 @@
-import { FormEventHandler, useCallback, useRef, useState } from "react";
+import {
+  FormEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../constants/routes";
@@ -11,10 +17,29 @@ const LoginForm = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || ROUTES.root;
+  const queryParams = new URLSearchParams(window.location.search);
+
+  useEffect(() => {
+    let timeoutId: number;
+    if (queryParams.get("email") === "confirm") {
+      setSuccessMessage("Email confirmed successfully");
+      timeoutId = setTimeout(() => {
+        setSuccessMessage("");
+      }, 5000);
+    }
+    if (queryParams.get("confirm") === "error") {
+      setErrorMessage("Could not confirm your email");
+      timeoutId = setTimeout(() => {
+        setErrorMessage("");
+      }, 5000);
+    }
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   const handleSubmit: FormEventHandler = useCallback(async (event) => {
     event.preventDefault();
@@ -27,10 +52,12 @@ const LoginForm = () => {
         setIsLoading(false);
         navigate(from, { replace: true });
       } catch (e: any) {
+        setIsLoading(false);
         if (!e?.response) {
           setErrorMessage("No Server Response");
         } else if (e.response?.status === 400 || e.response?.status === 401) {
-          setErrorMessage("Invalid credentials");
+          const message = e.response?.data?.message || "Invalid credentials";
+          setErrorMessage(message);
         } else {
           setErrorMessage("Login Failed");
         }
@@ -38,9 +65,13 @@ const LoginForm = () => {
     }
   }, []);
 
+  // todo: remove successMessage and use the Message component to show the message
   return (
     <section>
       <form onSubmit={handleSubmit}>
+        {successMessage && (
+          <p className="text-center text-success mb-7">{successMessage}</p>
+        )}
         {errorMessage && (
           <p className="text-center text-danger mb-7">{errorMessage}</p>
         )}
