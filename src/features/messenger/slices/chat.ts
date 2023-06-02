@@ -14,6 +14,7 @@ export interface ChatType {
   title: string;
   summary: string;
   createdAt: number;
+  updatedAt?: number;
 }
 
 export interface ChatMessage {
@@ -131,8 +132,15 @@ const chatSlice = createSlice({
     loadChats(state, action) {
       state.conversations = action.payload["hydra:member"].map(
         (chat: ChatType) => {
+          let createdAt;
+          if (chat.updatedAt) {
+            createdAt = new Date(chat.updatedAt).getTime();
+          } else if (chat.createdAt) {
+            createdAt = new Date(chat.createdAt).getTime();
+          } else createdAt = new Date().getTime();
+
           const oldChat: ChatType = {
-            createdAt: new Date(chat.createdAt).getTime(),
+            createdAt,
             id: chat.id,
             summary: chat.summary,
             title: chat.title,

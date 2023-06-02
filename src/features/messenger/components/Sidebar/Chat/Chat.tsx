@@ -1,34 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SidebarItem from "../SidebarItem";
 import ChatPlaceholder from "../../UI/Placeholder/Chat";
 import ChatItem from "./ChatItem";
-import { useAppDispatch, useAppSelector } from "../../../../../app/hooks";
-import { chatActions, ChatType, selectLiveId } from "../../../slices/chat";
-import usePrivateAxios from "../../../../auth/hooks/usePrivateAxios";
-import { ROUTES } from "../../../../../constants/routes";
+import { useAppSelector } from "../../../../../app/hooks";
+import { ChatType, selectLiveId } from "../../../slices/chat";
 import { selectSearchKey } from "../../../slices/search";
+import useChat from "../../../hooks/use-chat";
 
 type ChatsProps = {
   isActive?: boolean;
 };
 
 const Chat: React.FC<ChatsProps> = ({ isActive }) => {
-  const chat = useAppSelector((state) => state.chat);
+  const { chat, isLoading } = useChat();
   const liveId = useAppSelector(selectLiveId);
-  const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(true);
-  const axios = usePrivateAxios();
   const searchKey = useAppSelector(selectSearchKey).toLowerCase();
-
-  useEffect(() => {
-    const loadCharts = async () => {
-      const response = await axios.get(ROUTES.chats);
-      dispatch(chatActions.loadChats(response?.data));
-    };
-    loadCharts().finally(() => {
-      setIsLoading(false);
-    });
-  }, [dispatch]);
 
   const activeConversation = chat.conversations.find(
     (conv) => chat.activeChat !== null && conv.chat.id === chat.activeChat.id

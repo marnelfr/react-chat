@@ -32,20 +32,30 @@ const ChatForm = () => {
     messageRef.current!.focus();
   }, [activeChat]);
 
-  const handleSubmit: FormEventHandler = useCallback(
-    async (event) => {
-      event.preventDefault();
-      const text = messageRef.current!.value;
-      const chat = typeof activeChat?.id === "string" ? 0 : activeChat?.id;
+  const sendNewMessage = useCallback(async () => {
+    const text = messageRef.current!.value;
+    const chat = typeof activeChat?.id === "string" ? 0 : activeChat?.id;
 
-      dispatch(chatActions.send(text));
-      dispatch(loadActions.set({ key: "send-message", state: true }));
+    dispatch(chatActions.send(text));
+    dispatch(loadActions.set({ key: "send-message", state: true }));
+
+    try {
       const responseData = await axios.post(chat ? "message" : "chat", {
         text,
         chat,
       });
-
       dispatch(sendMessage(responseData?.data, text, chat));
+    } catch (e: any) {
+      if (e?.response?.status === 400) {
+        alert(e.response.data.message);
+      }
+    }
+  }, []);
+
+  const handleSubmit: FormEventHandler = useCallback(
+    async (event) => {
+      event.preventDefault();
+      await sendNewMessage();
     },
     [dispatch, activeChat]
   );
@@ -62,17 +72,7 @@ const ChatForm = () => {
       if (event.shiftKey && event.code === "Enter") return;
 
       if (event.code === "Enter") {
-        const chat = typeof activeChat?.id === "string" ? 0 : activeChat?.id;
-        const text = messageRef.current!.value;
-
-        dispatch(chatActions.send(text));
-        dispatch(loadActions.set({ key: "send-message", state: true }));
-        const responseData = await axios.post(chat ? "message" : "chat", {
-          text,
-          chat,
-        });
-
-        dispatch(sendMessage(responseData?.data, text, chat));
+        await sendNewMessage();
       }
     },
     [dispatch, activeChat]
