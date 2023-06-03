@@ -1,21 +1,21 @@
 import ReactDOM from "react-dom";
-import { MouseEventHandler, ReactNode, useCallback } from "react";
+import { MouseEventHandler, PropsWithChildren, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { modalActions } from "../../../redux/slices/modal";
+import { modalActions, ModalStateType } from "../../../redux/slices/modal";
 
-interface ModalProps {
-  children: ReactNode;
+interface ModalProps extends PropsWithChildren {
+  id: string;
   staticBackdrop?: boolean;
 }
 
-const Content = ({ children, staticBackdrop }: ModalProps) => {
+const Content = ({ id, children, staticBackdrop }: ModalProps) => {
   const dispatch = useAppDispatch();
 
   const HideHandler: MouseEventHandler = useCallback(
     (event) => {
       event.preventDefault();
       if (staticBackdrop) return;
-      dispatch(modalActions.hide());
+      dispatch(modalActions.hide(id));
     },
     [dispatch]
   );
@@ -47,14 +47,23 @@ const Content = ({ children, staticBackdrop }: ModalProps) => {
   );
 };
 
-const Modal = ({ children, staticBackdrop }: ModalProps) => {
-  const isDisplayed = useAppSelector((state) => state.modal.isDisplayed);
+const Modal = ({ id, children, staticBackdrop }: ModalProps) => {
+  const modal = useAppSelector((state) =>
+    state.modal.modals.find((m: ModalStateType) => m.id === id)
+  );
+
+  if (!modal) {
+    console.log("error modal");
+    return <>Error</>;
+  }
 
   return (
     <>
-      {isDisplayed &&
+      {modal.isDisplayed &&
         ReactDOM.createPortal(
-          <Content staticBackdrop={staticBackdrop}>{children}</Content>,
+          <Content id={id} staticBackdrop={staticBackdrop}>
+            {children}
+          </Content>,
           document.body
         )}
     </>

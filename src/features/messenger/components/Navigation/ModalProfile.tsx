@@ -12,11 +12,12 @@ const ModalProfile = () => {
   const dispatch = useAppDispatch();
   const { logout, auth } = useAuth();
   const user = auth.user as UserType;
+  const modalId = "modal-profile";
 
   const CloseHandler: MouseEventHandler = useCallback(
     (event) => {
       event.preventDefault();
-      dispatch(modalActions.hide());
+      dispatch(modalActions.hide(modalId));
     },
     [dispatch]
   );
@@ -25,13 +26,13 @@ const ModalProfile = () => {
     (event) => {
       event.preventDefault();
       logout();
-      dispatch(modalActions.hide());
+      dispatch(modalActions.hide(modalId));
     },
     [dispatch, logout]
   );
 
   return (
-    <Modal>
+    <Modal id={modalId}>
       {/* Header */}
       <div className="profile modal-gx-n">
         <div className="profile-img text-primary rounded-top-xl">

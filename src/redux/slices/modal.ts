@@ -1,22 +1,42 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 
-interface ModalState {
+export interface ModalStateType {
+  id: string;
   isDisplayed: boolean;
 }
 
-const initialState: ModalState = {
-  isDisplayed: false,
+interface StateType {
+  modals: ModalStateType[];
+}
+
+const initialState: StateType = {
+  modals: [
+    { id: "modal-profile", isDisplayed: false },
+    { id: "modal-impression", isDisplayed: false },
+    { id: "modal-subscription", isDisplayed: false },
+  ],
 };
 
 const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    show(state) {
-      state.isDisplayed = true;
+    show(state, action) {
+      const modal = state.modals.find(
+        (mod: ModalStateType) => mod.id === action.payload
+      );
+      if (!!modal) {
+        modal.isDisplayed = true;
+      }
     },
-    hide(state) {
-      state.isDisplayed = false;
+    hide(state, action) {
+      const modal = state.modals.find(
+        (mod: ModalStateType) => mod.id === action.payload
+      );
+      if (!!modal) {
+        modal.isDisplayed = false;
+      }
     },
   },
 });

@@ -8,7 +8,7 @@ const NavProfile = () => {
   const ShowProfileHandler: MouseEventHandler = useCallback(
     (event) => {
       event.preventDefault();
-      dispatch(modalActions.show());
+      dispatch(modalActions.show("modal-profile"));
     },
     [dispatch]
   );

@@ -15,6 +15,9 @@ import { chatActions } from "../../slices/chat";
 import { loadActions } from "../../slices/loading";
 import apiClient from "../../../../api/axios";
 import usePrivateAxios from "../../../auth/hooks/usePrivateAxios";
+import Modal from "../../../../components/UI/Modal/Modal";
+import { modalActions } from "../../../../redux/slices/modal";
+import ModalImpression from "./ModalImpression";
 
 const ChatForm = () => {
   const dispatch = useAppDispatch();
@@ -47,7 +50,11 @@ const ChatForm = () => {
       dispatch(sendMessage(responseData?.data, text, chat));
     } catch (e: any) {
       if (e?.response?.status === 400) {
-        alert(e.response.data.message);
+        if (e?.response?.data?.feedback === false) {
+          dispatch(modalActions.show("modal-impression"));
+        } else if (e?.response?.data?.feedback === true) {
+          dispatch(modalActions.show("modal-subscription"));
+        }
       }
     }
   }, []);
@@ -86,6 +93,7 @@ const ChatForm = () => {
 
   return (
     <div className="chat-footer pb-3 pb-lg-7 position-absolute bottom-0 start-0">
+      <ModalImpression />
       {/* Chat: Files */}
       <div
         className="dz-preview bg-dark"
