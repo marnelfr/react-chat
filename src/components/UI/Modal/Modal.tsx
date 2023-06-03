@@ -53,8 +53,8 @@ const Modal = ({ id, children, staticBackdrop }: ModalProps) => {
   );
 
   if (!modal) {
-    console.log("error modal");
-    return <>Error</>;
+    console.error("error modal");
+    return <></>;
   }
 
   return (

@@ -13,9 +13,7 @@ import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { sendMessage } from "../../thunks/chat-thunk";
 import { chatActions } from "../../slices/chat";
 import { loadActions } from "../../slices/loading";
-import apiClient from "../../../../api/axios";
 import usePrivateAxios from "../../../auth/hooks/usePrivateAxios";
-import Modal from "../../../../components/UI/Modal/Modal";
 import { modalActions } from "../../../../redux/slices/modal";
 import ModalImpression from "./ModalImpression";
 
