@@ -20,10 +20,19 @@ const Content = ({ messages }: ContentProps) => {
     contentRef.current!.scrollTo(0, contentRef.current!.scrollHeight);
   }, []);
   const conversation = messages.map((message) => {
+    const date = new Date(message.message.createdAt);
+    const hour =
+      date.getHours() +
+      ":" +
+      date.getMinutes().toLocaleString("en-US", {
+        minimumIntegerDigits: 2,
+        useGrouping: false,
+      });
+
     return (
       <Message
-        hour="08:45 PM"
-        key={message.message?.id || message.message.createdAt}
+        hour={hour}
+        key={message.message?.id || message.message.createdAt.toFixed(2)}
         out={message.type === "out"}
       >
         <MessageContent message={message.message.message} />
