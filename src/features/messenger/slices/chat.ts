@@ -31,12 +31,14 @@ interface StateType {
   activeChat: ChatType | null;
   liveId: string; //id used for chat created that haven't been given an Id on the backend yet
   conversations: Conversation[];
+  showChatList: boolean;
 }
 
 const initialState: StateType = {
   activeChat: null,
   liveId: "live-id-0",
   conversations: [],
+  showChatList: false,
 };
 
 const chatSlice = createSlice({
@@ -227,6 +229,9 @@ const chatSlice = createSlice({
       const strId = state.liveId.replace("live-id-", "");
       const id = Number(strId);
       state.liveId = "live-id-" + (id + 1);
+    },
+    setShowChatList(state, action) {
+      state.showChatList = action.payload;
     },
   },
 });

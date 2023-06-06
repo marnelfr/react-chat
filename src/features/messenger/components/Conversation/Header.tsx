@@ -1,18 +1,23 @@
 import ChevronLeft from "../UI/Svg/ChevronLeft";
-import RefreshSvg from "../UI/Svg/Refresh";
 import React, { MouseEventHandler, useCallback } from "react";
+import useChat from "../../hooks/use-chat";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+import { chatActions } from "../../slices/chat";
 
-type HeaderProps = {
-  onShowChatList: () => void;
-};
+const Header = () => {
+  const chat = useAppSelector((state) => state.chat);
+  const dispatch = useAppDispatch();
+  const activeConversation = chat.conversations.find(
+    (conv) => chat.activeChat !== null && conv.chat.id === chat.activeChat.id
+  );
+  const activeChatTitle = activeConversation?.chat?.title || "New conversation";
 
-const Header = ({ onShowChatList }: HeaderProps) => {
   const handleShowChatList: MouseEventHandler = useCallback(
     (event) => {
       event.preventDefault();
-      onShowChatList();
+      dispatch(chatActions.setShowChatList(true));
     },
-    [onShowChatList]
+    [dispatch]
   );
 
   return (
@@ -31,14 +36,15 @@ const Header = ({ onShowChatList }: HeaderProps) => {
         {/* Mobile: show chat list */}
 
         {/* Content */}
-        <div className="col-8 col-xl-12">
+        <div className="col-4 col-xl-12">
           <div className="row align-items-center text-center text-xl-start">
             {/* Toolbar */}
             <div className="col-xl-6 d-none d-xl-block">
               <div className="row align-items-center justify-content-end gx-6">
                 <div className="col-auto">
                   <span className="icon icon-lg text-muted">
-                    <RefreshSvg />
+                    {/*<RefreshSvg />*/}
+                    {activeChatTitle}
                   </span>
                 </div>
               </div>
@@ -49,11 +55,12 @@ const Header = ({ onShowChatList }: HeaderProps) => {
         {/* Content */}
 
         {/* Mobile: refresher */}
-        <div className="col-2 d-xl-none text-end">
+        <div className="col-6 d-xl-none text-end">
           <div className="dropdown">
             <span className="text-muted" role="button" aria-expanded="false">
               <span className="icon icon-lg">
-                <RefreshSvg />
+                {/*<RefreshSvg />*/}
+                {activeChatTitle}
               </span>
             </span>
           </div>

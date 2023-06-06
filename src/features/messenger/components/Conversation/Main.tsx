@@ -1,25 +1,22 @@
 import Header from "./Header";
 import React, { ReactNode, useCallback, useState } from "react";
+import { useAppSelector } from "../../../../app/hooks";
 
 type MainProps = {
   children: ReactNode;
 };
 
 const Main = ({ children }: MainProps) => {
-  const [showChartList, setShowChartList] = useState<boolean>(false);
-
-  const ShowChatListHandler = useCallback(() => {
-    setShowChartList(true);
-  }, []);
+  const showChatList = useAppSelector((state) => state.chat.showChatList);
 
   return (
     <main
-      className={`main ${showChartList ? undefined : "is-visible"}`}
+      className={`main ${showChatList ? undefined : "is-visible"}`}
       data-dropzone-area=""
     >
       <div className="container h-100">
         <div className="d-flex flex-column h-100 position-relative">
-          <Header onShowChatList={ShowChatListHandler} />
+          <Header />
           {children}
         </div>
       </div>
