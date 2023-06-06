@@ -240,5 +240,15 @@ export const chatActions = chatSlice.actions;
 
 export const selectLiveId = (state: RootState) => state.chat.liveId;
 
+export const selectChatMessages = (state: RootState) => {
+  const conversation = state.chat.conversations.find(
+    (conv) => conv.chat.id === state.chat.activeChat?.id
+  );
+  if (conversation) {
+    return conversation.chatMessages;
+  }
+  return [];
+};
+
 const chatReducer = chatSlice.reducer;
 export default chatReducer;

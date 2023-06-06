@@ -5,17 +5,10 @@ import NoMessage from "./NoMessage";
 import Content from "./Content";
 import ModalProfile from "../Navigation/ModalProfile";
 import { useAppSelector } from "../../../../app/hooks";
+import { selectChatMessages } from "../../slices/chat";
 
 const Conversation = () => {
-  const chatMessages = useAppSelector((state) => {
-    const conversation = state.chat.conversations.find(
-      (conv) => conv.chat.id === state.chat.activeChat?.id
-    );
-    if (conversation) {
-      return conversation.chatMessages;
-    }
-    return [];
-  });
+  const chatMessages = useAppSelector(selectChatMessages);
   let content = <NoMessage />;
   if (chatMessages.length) {
     content = <Content messages={chatMessages} />;
