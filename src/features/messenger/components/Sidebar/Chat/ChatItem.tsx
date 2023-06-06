@@ -24,6 +24,7 @@ const ChatItem = ({ chat }: Props) => {
       dispatch(
         chatActions.setActiveChat({ chat, data: data?.data?.questions || [] })
       );
+      setIsLoading(false);
     },
     [dispatch, chat]
   );
