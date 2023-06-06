@@ -36,11 +36,11 @@ const Header = () => {
         {/* Mobile: show chat list */}
 
         {/* Content */}
-        <div className="col-4 col-xl-12">
+        <div className="col-5 col-xl-12">
           <div className="row align-items-center text-center text-xl-start">
             {/* Toolbar */}
-            <div className="col-xl-6 d-none d-xl-block">
-              <div className="row align-items-center justify-content-end gx-6">
+            <div className="col-xl-12 d-none d-xl-block">
+              <div className="row align-items-center justify-content-center gx-6">
                 <div className="col-auto">
                   <span className="icon icon-lg text-muted">
                     {/*<RefreshSvg />*/}
@@ -55,7 +55,7 @@ const Header = () => {
         {/* Content */}
 
         {/* Mobile: refresher */}
-        <div className="col-6 d-xl-none text-end">
+        <div className="col-5 d-xl-none text-end">
           <div className="dropdown">
             <span className="text-muted" role="button" aria-expanded="false">
               <span className="icon icon-lg">
