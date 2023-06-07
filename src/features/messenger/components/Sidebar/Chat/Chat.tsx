@@ -3,7 +3,7 @@ import SidebarItem from "../SidebarItem";
 import ChatPlaceholder from "../../UI/Placeholder/Chat";
 import ChatItem from "./ChatItem";
 import { useAppSelector } from "../../../../../app/hooks";
-import { ChatType, selectLiveId } from "../../../slices/chat";
+import { ChatType, ConversationType, selectLiveId } from "../../../slices/chat";
 import { selectSearchKey } from "../../../slices/search";
 import useChat from "../../../hooks/use-chat";
 
@@ -37,7 +37,17 @@ const Chat: React.FC<ChatsProps> = ({ isActive }) => {
       (conv.chat.title.toLowerCase().includes(searchKey) ||
         conv.chat.summary.toLowerCase().includes(searchKey))
   );
-  const oldChatItems = oldConversations.map((conv) => {
+
+  const oldListId: (string | number)[] = [];
+  const oldList: ConversationType[] = [];
+  oldConversations.forEach((conv: ConversationType) => {
+    if (oldListId.indexOf(conv.chat.id) < 0) {
+      oldList.push(conv);
+      oldListId.push(conv.chat.id);
+    }
+  });
+
+  const oldChatItems = oldList.map((conv) => {
     return <ChatItem key={conv.chat.createdAt} chat={conv.chat} />;
   });
 
