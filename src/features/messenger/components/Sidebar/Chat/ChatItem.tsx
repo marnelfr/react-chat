@@ -1,7 +1,7 @@
 import ChatButton from "./ChatButton";
 import React, { MouseEventHandler, useCallback, useState } from "react";
 import { chatActions, ChatType } from "../../../slices/chat";
-import { useAppDispatch } from "../../../../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../../app/hooks";
 import usePrivateAxios from "../../../../auth/hooks/usePrivateAxios";
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
 
 const ChatItem = ({ chat }: Props) => {
   const dispatch = useAppDispatch();
+  const loadedChatIds = useAppSelector((state) => state.chat.loadedChatIds);
   const axios = usePrivateAxios();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -19,15 +20,17 @@ const ChatItem = ({ chat }: Props) => {
       if (chat.id === 0) return;
 
       setIsLoading(true);
-      const data: any = await axios.get("chats/" + chat.id);
-      console.log(data?.data?.questions);
-      dispatch(
-        chatActions.setActiveChat({ chat, data: data?.data?.questions || [] })
-      );
+      // todo: find the way to not load again a chat by making this request if we've already load it
+      let questions = [];
+      if (loadedChatIds.indexOf(chat.id) < 0) {
+        const data: any = await axios.get("chats/" + chat.id);
+        questions = data?.data?.questions;
+      }
+      dispatch(chatActions.setActiveChat({ chat, data: questions }));
       setIsLoading(false);
       dispatch(chatActions.setShowChatList(false));
     },
-    [dispatch, chat]
+    [dispatch, chat, loadedChatIds]
   );
 
   return (
