@@ -18,6 +18,10 @@ const useChat = () => {
     loadCharts().finally(() => {
       setIsLoading(false);
     });
+
+    return () => {
+      dispatch(chatActions.clearChats());
+    };
   }, []);
 
   return { chat, isLoading };

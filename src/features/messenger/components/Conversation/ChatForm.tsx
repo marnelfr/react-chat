@@ -55,7 +55,7 @@ const ChatForm = () => {
         }
       }
     }
-  }, []);
+  }, [activeChat, messageRef.current, dispatch]);
 
   const handleSubmit: FormEventHandler = useCallback(
     async (event) => {

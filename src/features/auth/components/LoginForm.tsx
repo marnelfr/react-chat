@@ -38,7 +38,10 @@ const LoginForm = () => {
         setErrorMessage("");
       }, 5000);
     }
-    return () => clearTimeout(timeoutId);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   const handleSubmit: FormEventHandler = useCallback(async (event) => {
