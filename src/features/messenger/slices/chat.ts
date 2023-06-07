@@ -22,7 +22,7 @@ export interface ChatMessage {
   type: "out" | "in";
 }
 
-interface Conversation {
+export interface ConversationType {
   chat: ChatType;
   chatMessages: ChatMessage[];
 }
@@ -30,8 +30,9 @@ interface Conversation {
 interface StateType {
   activeChat: ChatType | null;
   liveId: string; //id used for chat created that haven't been given an Id on the backend yet
-  conversations: Conversation[];
+  conversations: ConversationType[];
   showChatList: boolean;
+  loadedChatIds: (number | string)[];
 }
 
 const initialState: StateType = {
@@ -39,6 +40,7 @@ const initialState: StateType = {
   liveId: "live-id-0",
   conversations: [],
   showChatList: false,
+  loadedChatIds: [],
 };
 
 const chatSlice = createSlice({
@@ -70,7 +72,7 @@ const chatSlice = createSlice({
           summary: "Discover new things with fun",
           createdAt: new Date().getTime(),
         };
-        const conversation: Conversation = {
+        const conversation: ConversationType = {
           chat,
           chatMessages: [chatMessage],
         };
@@ -147,13 +149,19 @@ const chatSlice = createSlice({
             summary: chat.summary,
             title: chat.title,
           };
-          const conversation: Conversation = {
+          const conversation: ConversationType = {
             chat: oldChat,
             chatMessages: [],
           };
           return conversation;
         }
       );
+    },
+    clearChats(state) {
+      state.activeChat = null;
+      state.liveId = "live-id-0";
+      state.conversations = [];
+      state.showChatList = false;
     },
     setActiveChat(state, action) {
       if (action.payload.chat.id > 0) {
@@ -206,9 +214,27 @@ const chatSlice = createSlice({
             message: aMessage,
             type: "in",
           };
+
+          /*todo: optimize this 👇*/
+          let found = false;
+          conversation.chatMessages.forEach((message: ChatMessage) => {
+            if (
+              message.message.id === aMessage.id ||
+              message.message.id === qMessage.id
+            ) {
+              found = true;
+            }
+          });
+
+          if (found) {
+            return;
+          }
+          /*todo: optimize this 👆*/
+
           conversation.chatMessages.push(questionMessage);
           conversation.chatMessages.push(answerMessage);
         });
+        state.loadedChatIds.push(action.payload.chat.id);
       }
     },
     startNewChat(state) {
@@ -218,7 +244,7 @@ const chatSlice = createSlice({
         summary: "Discover new things with fun",
         title: "New conversation",
       };
-      const conversation: Conversation = {
+      const conversation: ConversationType = {
         chat: newChat,
         chatMessages: [],
       };
