@@ -16,7 +16,7 @@ const SettingsProfile = () => {
     (event) => {
       event.preventDefault();
       logout();
-      dispatch(modalActions.hide());
+      dispatch(modalActions.hide("modal-profile"));
     },
     [dispatch, logout]
   );
